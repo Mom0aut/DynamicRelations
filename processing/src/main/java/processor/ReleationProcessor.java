@@ -3,6 +3,7 @@ package processor;
 import annotation.Relation;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.AnnotationSpec;
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
 
@@ -11,8 +12,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.tools.Diagnostic;
 import java.io.IOException;
 import java.util.LinkedHashSet;
@@ -57,17 +57,27 @@ public class ReleationProcessor extends AbstractProcessor {
                 String type = annotation.type();
                 String elementPackage = processingEnv.getElementUtils().getPackageOf(relationAnnotation).
                         getQualifiedName().toString();
-                TypeSpec helloWorld = TypeSpec.classBuilder(type + "Relation")
+                TypeSpec relation = TypeSpec.classBuilder(type + "Relation")
                         .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                         .addAnnotation(Entity.class)
                         .addAnnotation(createTableAnnotation(type))
+                        .addField(FieldSpec.builder(Long.class, "id", Modifier.PRIVATE)
+                                .addAnnotation(Id.class)
+                                .addAnnotation(createGeneratedValueAnnotation())
+                                .build())
                         .build();
-                JavaFile javaFile = JavaFile.builder(elementPackage, helloWorld)
+                JavaFile javaFile = JavaFile.builder(elementPackage, relation)
                         .build();
                 createJavaClass(javaFile);
             }
         }
         return false;
+    }
+
+    private static AnnotationSpec createGeneratedValueAnnotation() {
+        return AnnotationSpec.builder(GeneratedValue.class)
+                .addMember("strategy", "$T.$L", GenerationType.class, GenerationType.IDENTITY.name())
+                .build();
     }
 
     private static AnnotationSpec createTableAnnotation(String type) {

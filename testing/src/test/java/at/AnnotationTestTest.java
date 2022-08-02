@@ -8,7 +8,7 @@ class AnnotationTestTest {
     @Test
     void testAnnotation() {
 
-
+        DokumentRelation dokumentRelation = new DokumentRelation();
     }
 
 }
