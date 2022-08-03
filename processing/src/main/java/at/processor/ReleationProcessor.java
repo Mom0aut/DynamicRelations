@@ -114,9 +114,9 @@ public class ReleationProcessor extends AbstractProcessor {
         return AnnotationSpec.builder(Table.class)
                 .addMember("name", "$S", type + "Relation")
                 .addMember("uniqueConstraints", CodeBlock.builder()
-                        .add("{ @$T(name = " + "\"Unique_Relation\", columnNames = " +
+                        .add("{ @$T(name = " + "\"unique_relation_$L\", columnNames = " +
                                         "{ \"target_id\", \"target_type\",\"source_object\" })}",
-                                UniqueConstraint.class)
+                                UniqueConstraint.class, type)
                         .build())
                 .build();
     }
