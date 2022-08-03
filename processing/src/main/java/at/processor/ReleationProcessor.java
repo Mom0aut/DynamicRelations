@@ -1,17 +1,19 @@
-package processor;
+package at.processor;
 
-import annotation.Relation;
+import at.annotation.Relation;
 import com.google.auto.service.AutoService;
-import com.squareup.javapoet.AnnotationSpec;
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.TypeSpec;
+import com.squareup.javapoet.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.MirroredTypeException;
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.Types;
 import javax.persistence.*;
 import javax.tools.Diagnostic;
 import java.io.IOException;
@@ -55,15 +57,37 @@ public class ReleationProcessor extends AbstractProcessor {
                 processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "found @Relation at " + relationAnnotation);
                 Relation annotation = relationAnnotation.getAnnotation(Relation.class);
                 String type = annotation.type();
+                TypeMirror typeMirror = getSourceClass(annotation);
+                assert typeMirror != null;
+                TypeName typeName = ClassName.get(typeMirror);
+
                 String elementPackage = processingEnv.getElementUtils().getPackageOf(relationAnnotation).
                         getQualifiedName().toString();
                 TypeSpec relation = TypeSpec.classBuilder(type + "Relation")
                         .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                         .addAnnotation(Entity.class)
+                        .addAnnotation(Setter.class)
+                        .addAnnotation(Getter.class)
                         .addAnnotation(createTableAnnotation(type))
                         .addField(FieldSpec.builder(Long.class, "id", Modifier.PRIVATE)
                                 .addAnnotation(Id.class)
                                 .addAnnotation(createGeneratedValueAnnotation())
+                                .build())
+                        .addField(FieldSpec.builder(typeName, "sourceObject", Modifier.PRIVATE)
+                                .addAnnotation(ManyToOne.class)
+                                .addAnnotation(createJoinColumnAnnotaion())
+                                .build())
+                        .addField(FieldSpec.builder(Long.class, "targetId", Modifier.PRIVATE)
+                                .addAnnotation(AnnotationSpec.builder(Column.class)
+                                        .addMember("name", "$S", "target_id")
+                                        .addMember("nullable", "$L", false)
+                                        .build())
+                                .build())
+                        .addField(FieldSpec.builder(String.class, "targetType", Modifier.PRIVATE)
+                                .addAnnotation(AnnotationSpec.builder(Column.class)
+                                        .addMember("name", "$S", "target_type")
+                                        .addMember("nullable", "$L", false)
+                                        .build())
                                 .build())
                         .build();
                 JavaFile javaFile = JavaFile.builder(elementPackage, relation)
@@ -74,15 +98,26 @@ public class ReleationProcessor extends AbstractProcessor {
         return false;
     }
 
-    private static AnnotationSpec createGeneratedValueAnnotation() {
+    private AnnotationSpec createJoinColumnAnnotaion() {
+        return AnnotationSpec.builder(JoinColumn.class)
+                .addMember("name", "$S", "source_object")
+                .build();
+    }
+
+    private AnnotationSpec createGeneratedValueAnnotation() {
         return AnnotationSpec.builder(GeneratedValue.class)
                 .addMember("strategy", "$T.$L", GenerationType.class, GenerationType.IDENTITY.name())
                 .build();
     }
 
-    private static AnnotationSpec createTableAnnotation(String type) {
+    private AnnotationSpec createTableAnnotation(String type) {
         return AnnotationSpec.builder(Table.class)
                 .addMember("name", "$S", type + "Relation")
+                .addMember("uniqueConstraints", CodeBlock.builder()
+                        .add("{ @$T(name = " + "\"Unique_Relation\", columnNames = " +
+                                        "{ \"target_id\", \"target_type\",\"source_object\" })}",
+                                UniqueConstraint.class)
+                        .build())
                 .build();
     }
 
@@ -93,5 +128,22 @@ public class ReleationProcessor extends AbstractProcessor {
             processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "ERROR ON write file: " +
                     e.getMessage());
         }
+    }
+
+
+    //TODO refactor with the more right way see:
+    // https://stackoverflow.com/questions/7687829/java-6-annotation-processing-getting-a-class-from-an-annotation
+    private TypeMirror getSourceClass(Relation annotation) {
+        try {
+            annotation.sourceClass(); // this should throw
+        } catch (MirroredTypeException mte) {
+            return mte.getTypeMirror();
+        }
+        return null; // can this ever happen ??
+    }
+
+    private TypeElement asTypeElement(TypeMirror typeMirror) {
+        Types TypeUtils = this.processingEnv.getTypeUtils();
+        return (TypeElement) TypeUtils.asElement(typeMirror);
     }
 }
