@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @Disabled
-//Test
+//Test again
 class RelationTest {
 
     @Autowired
