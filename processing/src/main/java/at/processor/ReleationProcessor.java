@@ -28,7 +28,7 @@ public class ReleationProcessor extends AbstractProcessor {
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
-        processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "init");
+//        processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "init");
         super.init(processingEnv);
         filer = processingEnv.getFiler();
         messager = processingEnv.getMessager();
