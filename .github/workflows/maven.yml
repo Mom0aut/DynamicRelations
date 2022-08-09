@@ -29,6 +29,9 @@ jobs:
       uses: cicirello/jacoco-badge-generator@v2
       with:
         generate-branches-badge: true
+        jacoco-csv-file: >
+          processing/target/site/jacoco/jacoco.csv
+          testing/target/site/jacoco/jacoco.csv
       
     - name: Log coverage percentage
       run: |
