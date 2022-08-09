@@ -21,7 +21,7 @@
         <dependency>
             <groupId>at</groupId>
             <artifactId>processing</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${revision}</version>
         </dependency>
     </dependencies>
 
