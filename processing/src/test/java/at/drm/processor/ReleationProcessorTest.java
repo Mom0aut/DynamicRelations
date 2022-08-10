@@ -1,6 +1,6 @@
-package at.processor;
+package at.drm.processor;
 
-import at.annotation.Relation;
+import at.drm.annotation.Relation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

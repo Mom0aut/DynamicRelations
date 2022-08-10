@@ -1,6 +1,6 @@
 package at;
 
-import at.annotation.Relation;
+import at.drm.annotation.Relation;
 import lombok.Data;
 
 import javax.persistence.Entity;

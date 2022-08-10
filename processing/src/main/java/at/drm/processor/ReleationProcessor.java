@@ -1,6 +1,6 @@
-package at.processor;
+package at.drm.processor;
 
-import at.annotation.Relation;
+import at.drm.annotation.Relation;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.*;
 import lombok.Getter;
