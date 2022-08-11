@@ -33,6 +33,7 @@ class ReleationProcessorTest {
 
     @Test
     void init() {
+        Mockito.when(processingEnvironment.getMessager()).thenReturn(messager);
         releationProcessorUnderTest.init(processingEnvironment);
     }
 
