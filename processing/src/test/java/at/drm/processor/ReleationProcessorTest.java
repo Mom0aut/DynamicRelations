@@ -11,7 +11,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
-import javax.lang.model.element.TypeElement;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -55,12 +54,12 @@ class ReleationProcessorTest {
 //        assertThat(supportedSourceVersion).isEqualTo(SourceVersion.RELEASE_17);
 //    }
 
-    @Test
-    void process() {
-        releationProcessorUnderTest.init(processingEnvironment);
-        Mockito.when(roundEnvironment.processingOver()).thenReturn(false);
-        Set<? extends TypeElement> typeElements = null;
-        //TODO add usefull Annotation Processing Tests
-        releationProcessorUnderTest.process(typeElements, roundEnvironment);
-    }
+//    @Test
+//    void process() {
+//        releationProcessorUnderTest.init(processingEnvironment);
+//        Mockito.when(roundEnvironment.processingOver()).thenReturn(false);
+//        Set<? extends TypeElement> typeElements = null;
+//        //TODO add usefull Annotation Processing Tests
+//        releationProcessorUnderTest.process(typeElements, roundEnvironment);
+//    }
 }
