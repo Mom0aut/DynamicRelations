@@ -9,7 +9,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>jacoco-report</artifactId>
-    <packaging>pom</packaging>
 
     <properties>
         <code.coverage.project.folder>${basedir}/../</code.coverage.project.folder>
