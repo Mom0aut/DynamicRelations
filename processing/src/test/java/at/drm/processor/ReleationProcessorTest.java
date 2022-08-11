@@ -59,7 +59,6 @@ class ReleationProcessorTest {
         Compilation compilation = javac()
                 .withProcessors(releationProcessor)
                 .compile(JavaFileObjects.forResource("TestFile.java"));
-
         CompilationSubject.assertThat(compilation).succeeded();
         ImmutableList<JavaFileObject> generatedFiles = compilation.generatedFiles();
         assertThat(generatedFiles).isNotEmpty();
