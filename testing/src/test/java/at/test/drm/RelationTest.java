@@ -1,4 +1,4 @@
-package at.drm;
+package at.test.drm;
 
 
 import at.drm.dao.DynamicRelationDao;

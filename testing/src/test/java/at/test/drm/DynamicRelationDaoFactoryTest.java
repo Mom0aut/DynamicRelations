@@ -1,4 +1,4 @@
-package at.drm;
+package at.test.drm;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;

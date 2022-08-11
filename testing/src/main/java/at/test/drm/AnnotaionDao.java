@@ -1,4 +1,4 @@
-package at.drm;
+package at.test.drm;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
