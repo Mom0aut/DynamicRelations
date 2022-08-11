@@ -1,6 +1,7 @@
 package at.drm.factory;
 
 import at.drm.dao.DynamicRelationDao;
+import at.drm.exception.NoDynamicDaoFoundException;
 import at.drm.model.DynamicRelationModel;
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class DynamicRelationDaoFactory {
                 Field sourceObject = getDeclaredField(resolve, "sourceObject");
                 Class<?> type = sourceObject.getType();
                 return type.equals(dynamicRelactionClass);
-            }).findFirst().orElseThrow(() -> new RuntimeException("No DynamicRelationDao was found!"));
+            }).findFirst().orElseThrow(() -> new NoDynamicDaoFoundException("No DynamicRelationDao was found!"));
         return dynamicRelationDao;
     }
 
