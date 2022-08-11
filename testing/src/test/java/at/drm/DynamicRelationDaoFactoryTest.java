@@ -1,4 +1,4 @@
-package at;
+package at.drm;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -17,6 +17,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationContext;
 
+;
+
 @ExtendWith(MockitoExtension.class)
 class DynamicRelationDaoFactoryTest {
 
@@ -25,6 +27,9 @@ class DynamicRelationDaoFactoryTest {
 
     @Mock
     private DokumentRelationDao dokumentRelationDao;
+
+    @Mock
+    private DynamicRelationDao dynamicRelationDao;
 
     @InjectMocks
     private DynamicRelationDaoFactory dynamicRelationDaoFactoryUnderTest;
@@ -49,4 +54,17 @@ class DynamicRelationDaoFactoryTest {
         });
         assertThat(exception).isNotNull();
     }
+
+
+    @Test
+    void getDaoFromSourceObjectClassShouldThrowRuntimeException() {
+        Mockito.when(applicationContext.getBeansOfType(any(Class.class)))
+            .thenReturn(Map.ofEntries(Map.entry("wrongTestDao", dynamicRelationDao)));
+        RuntimeException exception = Assertions.assertThrows(RuntimeException.class, () -> {
+            dynamicRelationDaoFactoryUnderTest.getDaoFromSourceObjectClass(
+                AnnotaionDao.class);
+        });
+        assertThat(exception).isNotNull();
+    }
+
 }

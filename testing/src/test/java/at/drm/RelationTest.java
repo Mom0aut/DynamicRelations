@@ -1,4 +1,5 @@
-package at;
+package at.drm;
+
 
 import at.drm.dao.DynamicRelationDao;
 import at.drm.factory.DynamicRelationDaoFactory;
@@ -79,7 +80,7 @@ class RelationTest {
 
         dokumentRelation.setTargetType("TEST2");
 
-        DokumentRelation save2 = dokumentRelationDao.save(dokumentRelation);
+//        DokumentRelation save2 = dokumentRelationDao.save(dokumentRelation);
 
     }
 
@@ -121,7 +122,7 @@ class RelationTest {
         testingRelation.setTargetType("TEST AGAIN234");
 
         TestingRelation save4 = dao2.save(testingRelation);
-        
+
 
     }
 

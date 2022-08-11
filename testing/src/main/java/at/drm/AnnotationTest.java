@@ -1,20 +1,20 @@
-package at;
+package at.drm;
 
 import at.drm.annotation.Relation;
-import lombok.Data;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import lombok.Data;
 
-@Relation(type = "Dokument", sourceClass = AnnotationTest2.class)
+@Relation(type = "Testing", sourceClass = AnnotationTest.class)
 @Entity
 @Data
-public class AnnotationTest2 {
+public class AnnotationTest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
 
 }
