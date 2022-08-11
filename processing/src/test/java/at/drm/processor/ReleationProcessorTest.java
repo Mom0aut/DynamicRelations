@@ -11,7 +11,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
-import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
 import java.util.Set;
 
@@ -49,12 +48,12 @@ class ReleationProcessorTest {
         assertThat(supportedAnnotationTypes).contains(Relation.class.getCanonicalName());
     }
 
-    @Test
-    void getSupportedSourceVersion() {
-        releationProcessorUnderTest.init(processingEnvironment);
-        SourceVersion supportedSourceVersion = releationProcessorUnderTest.getSupportedSourceVersion();
-        assertThat(supportedSourceVersion).isEqualTo(SourceVersion.RELEASE_17);
-    }
+//    @Test
+//    void getSupportedSourceVersion() {
+//        releationProcessorUnderTest.init(processingEnvironment);
+//        SourceVersion supportedSourceVersion = releationProcessorUnderTest.getSupportedSourceVersion();
+//        assertThat(supportedSourceVersion).isEqualTo(SourceVersion.RELEASE_17);
+//    }
 
     @Test
     void process() {
