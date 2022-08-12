@@ -5,42 +5,22 @@ import at.drm.dao.DynamicRelationDao;
 import at.drm.model.DynamicRelationMetaData;
 import at.drm.model.DynamicRelationModel;
 import com.google.auto.service.AutoService;
-import com.squareup.javapoet.AnnotationSpec;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.CodeBlock;
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeSpec;
-import com.squareup.javapoet.TypeVariableName;
-import java.io.IOException;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Filer;
-import javax.annotation.processing.Messager;
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.Processor;
-import javax.annotation.processing.RoundEnvironment;
+import com.squareup.javapoet.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.type.TypeMirror;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import javax.tools.Diagnostic;
-import lombok.Getter;
-import lombok.Setter;
+import java.io.IOException;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @AutoService(Processor.class)
 public class ReleationProcessor extends AbstractProcessor {
@@ -62,8 +42,8 @@ public class ReleationProcessor extends AbstractProcessor {
         Set<String> annotations = new LinkedHashSet<>();
         annotations.add(Relation.class.getCanonicalName());
         processingEnv.getMessager()
-            .printMessage(Diagnostic.Kind.NOTE, "getSupportedAnnotationTypes: "
-                + annotations);
+                .printMessage(Diagnostic.Kind.NOTE, "getSupportedAnnotationTypes: "
+                        + annotations);
         return annotations;
     }
 
@@ -89,11 +69,12 @@ public class ReleationProcessor extends AbstractProcessor {
 
     private DynamicRelationMetaData createEntityMetaData(Element relationElement) {
         Relation relationAnnotation = relationElement.getAnnotation(Relation.class);
-        String type = relationAnnotation.type();
         String elementPackage = processingEnv.getElementUtils()
-            .getPackageOf(relationElement).getQualifiedName().toString();
-        String entityName = type + "Relation";
-        return new DynamicRelationMetaData(type, elementPackage, entityName, relationAnnotation);
+                .getPackageOf(relationElement).getQualifiedName().toString();
+        TypeName sourceObjectName = getSourceObjectTypeName(relationAnnotation);
+        String sourceObjectWithoutPackages = sourceObjectName.toString().replace(elementPackage + ".", "");
+        String generatedEntityName = sourceObjectWithoutPackages + "Relation";
+        return new DynamicRelationMetaData(sourceObjectName, elementPackage, generatedEntityName, relationAnnotation);
     }
 
     private void createDynamicRelationDao(DynamicRelationMetaData entityMetaData) {
@@ -101,56 +82,57 @@ public class ReleationProcessor extends AbstractProcessor {
         String generatedName = entityMetaData.generatedName();
         ClassName entityClassName = ClassName.get(packageName, generatedName);
         TypeName longTypeName = TypeVariableName.get(Long.class);
-        TypeSpec relationDao = TypeSpec.interfaceBuilder(entityMetaData.type() + "RelationDao")
-            .addSuperinterface(
-                ParameterizedTypeName.get(ClassName.get(DynamicRelationDao.class), entityClassName, longTypeName))
-            .build();
+        TypeSpec relationDao = TypeSpec.interfaceBuilder(entityMetaData.generatedName().replace("Relation", "RelationDao"))
+                .addModifiers(Modifier.PUBLIC)
+                .addSuperinterface(
+                        ParameterizedTypeName.get(ClassName.get(DynamicRelationDao.class), entityClassName, longTypeName))
+                .build();
         JavaFile javaFileDao = JavaFile.builder(packageName, relationDao)
-            .build();
+                .build();
         createJavaClass(javaFileDao);
     }
 
     private void createDynamicRelationEntity(DynamicRelationMetaData entityMetaData) {
-        TypeName typeName = getTypeName(entityMetaData.relationAnnotation());
         String generatedName = entityMetaData.generatedName();
-        String type = entityMetaData.type();
-        TypeSpec relationEntity = TypeSpec.classBuilder(generatedName)
-            .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-            .addSuperinterface(DynamicRelationModel.class)
-            .addAnnotation(Entity.class)
-            .addAnnotation(Setter.class)
-            .addAnnotation(Getter.class)
-            .addAnnotation(createTableAnnotation(type))
-            .addField(createIdAnnotation())
-            .addField(createSourceObjectField(typeName))
-            .addField(createTargetIdField())
-            .addField(createTargetTypeField())
-            .build();
         String packageName = entityMetaData.packageName();
+        TypeName sourceObjectName = entityMetaData.sourceObjectName();
+        TypeSpec relationEntity = TypeSpec.classBuilder(generatedName)
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                .addSuperinterface(
+                        ParameterizedTypeName.get(ClassName.get(DynamicRelationModel.class), sourceObjectName))
+                .addAnnotation(Entity.class)
+                .addAnnotation(Setter.class)
+                .addAnnotation(Getter.class)
+                .addAnnotation(createTableAnnotation(generatedName))
+                .addField(createIdAnnotation())
+                .addField(createSourceObjectField(sourceObjectName))
+                .addField(createTargetIdField())
+                .addField(createTargetTypeField())
+                .build();
         JavaFile entityJavaFile = JavaFile.builder(packageName, relationEntity)
-            .build();
+                .build();
         createJavaClass(entityJavaFile);
     }
 
     private static FieldSpec createTargetTypeField() {
         return FieldSpec.builder(String.class, "targetType", Modifier.PRIVATE)
-            .addAnnotation(AnnotationSpec.builder(Column.class)
-                .addMember("name", "$S", "target_type")
-                .addMember("nullable", "$L", false)
-                .build())
-            .build();
+                .addAnnotation(AnnotationSpec.builder(Column.class)
+                        .addMember("name", "$S", "target_type")
+                        .addMember("nullable", "$L", false)
+                        .build())
+                .build();
     }
 
     private static FieldSpec createTargetIdField() {
         return FieldSpec.builder(Long.class, "targetId", Modifier.PRIVATE)
-            .addAnnotation(AnnotationSpec.builder(Column.class)
-                .addMember("name", "$S", "target_id")
-                .addMember("nullable", "$L", false)
-                .build())
-            .build();
+                .addAnnotation(AnnotationSpec.builder(Column.class)
+                        .addMember("name", "$S", "target_id")
+                        .addMember("nullable", "$L", false)
+                        .build())
+                .build();
     }
 
-    private TypeName getTypeName(Relation annotation) {
+    private TypeName getSourceObjectTypeName(Relation annotation) {
         TypeMirror typeMirror = getSourceClass(annotation);
         assert typeMirror != null;
         return ClassName.get(typeMirror);
@@ -158,39 +140,39 @@ public class ReleationProcessor extends AbstractProcessor {
 
     private FieldSpec createSourceObjectField(TypeName typeName) {
         return FieldSpec.builder(typeName, "sourceObject", Modifier.PRIVATE)
-            .addAnnotation(ManyToOne.class)
-            .addAnnotation(createJoinColumnAnnotaion())
-            .build();
+                .addAnnotation(ManyToOne.class)
+                .addAnnotation(createJoinColumnAnnotaion())
+                .build();
     }
 
     private FieldSpec createIdAnnotation() {
         return FieldSpec.builder(Long.class, "id", Modifier.PRIVATE)
-            .addAnnotation(Id.class)
-            .addAnnotation(createGeneratedValueAnnotation())
-            .build();
+                .addAnnotation(Id.class)
+                .addAnnotation(createGeneratedValueAnnotation())
+                .build();
     }
 
     private AnnotationSpec createJoinColumnAnnotaion() {
         return AnnotationSpec.builder(JoinColumn.class)
-            .addMember("name", "$S", "source_object")
-            .build();
+                .addMember("name", "$S", "source_object")
+                .build();
     }
 
     private AnnotationSpec createGeneratedValueAnnotation() {
         return AnnotationSpec.builder(GeneratedValue.class)
-            .addMember("strategy", "$T.$L", GenerationType.class, GenerationType.IDENTITY.name())
-            .build();
+                .addMember("strategy", "$T.$L", GenerationType.class, GenerationType.IDENTITY.name())
+                .build();
     }
 
-    private AnnotationSpec createTableAnnotation(String type) {
+    private AnnotationSpec createTableAnnotation(String generatedName) {
         return AnnotationSpec.builder(Table.class)
-            .addMember("name", "$S", type + "Relation")
-            .addMember("uniqueConstraints", CodeBlock.builder()
-                .add("{ @$T(name = " + "\"unique_relation_$L\", columnNames = " +
-                        "{ \"target_id\", \"target_type\",\"source_object\" })}",
-                    UniqueConstraint.class, type)
-                .build())
-            .build();
+                .addMember("name", "$S", generatedName)
+                .addMember("uniqueConstraints", CodeBlock.builder()
+                        .add("{ @$T(name = " + "\"unique_$L\", columnNames = " +
+                                        "{ \"target_id\", \"target_type\",\"source_object\" })}",
+                                UniqueConstraint.class, generatedName)
+                        .build())
+                .build();
     }
 
     private void createJavaClass(JavaFile javaFile) {
@@ -198,8 +180,8 @@ public class ReleationProcessor extends AbstractProcessor {
             javaFile.writeTo(filer);
         } catch (IOException e) {
             processingEnv.getMessager()
-                .printMessage(Diagnostic.Kind.ERROR, "ERROR ON write file: " +
-                    e.getMessage());
+                    .printMessage(Diagnostic.Kind.ERROR, "ERROR ON write file: " +
+                            e.getMessage());
         }
     }
 
