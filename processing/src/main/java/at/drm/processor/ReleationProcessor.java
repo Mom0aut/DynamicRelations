@@ -1,9 +1,9 @@
 package at.drm.processor;
 
 import at.drm.annotation.Relation;
-import at.drm.dao.DynamicRelationDao;
-import at.drm.model.DynamicRelationMetaData;
-import at.drm.model.DynamicRelationModel;
+import at.drm.dao.RelationDao;
+import at.drm.model.RelationLink;
+import at.drm.model.RelationMetaData;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.*;
 import lombok.Getter;
@@ -59,7 +59,7 @@ public class ReleationProcessor extends AbstractProcessor {
             processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "process");
             for (Element relationElement : roundEnv.getElementsAnnotatedWith(Relation.class)) {
                 processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "found @Relation at " + relationElement);
-                DynamicRelationMetaData entityMetaData = createEntityMetaData(relationElement);
+                RelationMetaData entityMetaData = createEntityMetaData(relationElement);
                 createDynamicRelationEntity(entityMetaData);
                 createDynamicRelationDao(entityMetaData);
             }
@@ -67,17 +67,17 @@ public class ReleationProcessor extends AbstractProcessor {
         return false;
     }
 
-    private DynamicRelationMetaData createEntityMetaData(Element relationElement) {
+    private RelationMetaData createEntityMetaData(Element relationElement) {
         Relation relationAnnotation = relationElement.getAnnotation(Relation.class);
         String elementPackage = processingEnv.getElementUtils()
                 .getPackageOf(relationElement).getQualifiedName().toString();
         TypeName sourceObjectName = getSourceObjectTypeName(relationAnnotation);
         String sourceObjectWithoutPackages = sourceObjectName.toString().replace(elementPackage + ".", "");
         String generatedEntityName = sourceObjectWithoutPackages + "Relation";
-        return new DynamicRelationMetaData(sourceObjectName, elementPackage, generatedEntityName, relationAnnotation);
+        return new RelationMetaData(sourceObjectName, elementPackage, generatedEntityName, relationAnnotation);
     }
 
-    private void createDynamicRelationDao(DynamicRelationMetaData entityMetaData) {
+    private void createDynamicRelationDao(RelationMetaData entityMetaData) {
         String packageName = entityMetaData.packageName();
         String generatedName = entityMetaData.generatedName();
         ClassName entityClassName = ClassName.get(packageName, generatedName);
@@ -85,21 +85,21 @@ public class ReleationProcessor extends AbstractProcessor {
         TypeSpec relationDao = TypeSpec.interfaceBuilder(entityMetaData.generatedName().replace("Relation", "RelationDao"))
                 .addModifiers(Modifier.PUBLIC)
                 .addSuperinterface(
-                        ParameterizedTypeName.get(ClassName.get(DynamicRelationDao.class), entityClassName, longTypeName))
+                        ParameterizedTypeName.get(ClassName.get(RelationDao.class), entityClassName, longTypeName))
                 .build();
         JavaFile javaFileDao = JavaFile.builder(packageName, relationDao)
                 .build();
         createJavaClass(javaFileDao);
     }
 
-    private void createDynamicRelationEntity(DynamicRelationMetaData entityMetaData) {
+    private void createDynamicRelationEntity(RelationMetaData entityMetaData) {
         String generatedName = entityMetaData.generatedName();
         String packageName = entityMetaData.packageName();
         TypeName sourceObjectName = entityMetaData.sourceObjectName();
         TypeSpec relationEntity = TypeSpec.classBuilder(generatedName)
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                 .addSuperinterface(
-                        ParameterizedTypeName.get(ClassName.get(DynamicRelationModel.class), sourceObjectName))
+                        ParameterizedTypeName.get(ClassName.get(RelationLink.class), sourceObjectName))
                 .addAnnotation(Entity.class)
                 .addAnnotation(Setter.class)
                 .addAnnotation(Getter.class)

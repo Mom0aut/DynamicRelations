@@ -1,7 +1,7 @@
 package at.drm.model;
 
 
-public interface DynamicRelationModel<ObjectT> {
+public interface RelationLink<ObjectT> {
     ObjectT getSourceObject();
 
     void setSourceObject(ObjectT sourceObject);

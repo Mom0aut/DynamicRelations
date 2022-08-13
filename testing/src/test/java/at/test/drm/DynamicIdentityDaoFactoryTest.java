@@ -1,9 +1,9 @@
 package at.test.drm;
 
-import at.drm.dao.DynamicRelationDao;
-import at.drm.exception.NoDynamicDaoFoundException;
-import at.drm.factory.DynamicRelationDaoFactory;
-import at.drm.model.DynamicRelationModel;
+import at.drm.dao.RelationDao;
+import at.drm.exception.NoRelationDaoFoundException;
+import at.drm.factory.RelationDaoFactory;
+import at.drm.model.RelationLink;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 ;
 
 @ExtendWith(MockitoExtension.class)
-class DynamicRelationDaoFactoryTest {
+class RelationDaoFactoryTest {
 
     @Mock
     private ApplicationContext applicationContext;
@@ -30,16 +30,16 @@ class DynamicRelationDaoFactoryTest {
     private AnnotationTest2RelationDao annotationTest2RelationDao;
 
     @Mock
-    private DynamicRelationDao dynamicRelationDao;
+    private RelationDao relationDao;
 
     @InjectMocks
-    private DynamicRelationDaoFactory dynamicRelationDaoFactoryUnderTest;
+    private RelationDaoFactory relationDaoFactoryUnderTest;
 
     @Test
     void getDaoFromSourceObjectClass() {
         Mockito.when(applicationContext.getBeansOfType(any(Class.class)))
                 .thenReturn(Map.ofEntries(Map.entry("testDao", annotationTest2RelationDao)));
-        DynamicRelationDao<DynamicRelationModel, Long> daoFromSourceObjectClass = dynamicRelationDaoFactoryUnderTest.getDaoFromSourceObjectClass(
+        RelationDao<RelationLink, Long> daoFromSourceObjectClass = relationDaoFactoryUnderTest.getDaoFromSourceObjectClass(
                 AnnotationTest2.class);
         assertThat(daoFromSourceObjectClass).isNotNull();
         assertThat(daoFromSourceObjectClass).isInstanceOf(annotationTest2RelationDao.getClass());
@@ -49,8 +49,8 @@ class DynamicRelationDaoFactoryTest {
     void getDaoFromSourceObjectClassShouldThrowNoDaoFoundException() {
         Mockito.when(applicationContext.getBeansOfType(any(Class.class)))
                 .thenReturn(Map.ofEntries(Map.entry("testDao", annotationTest2RelationDao)));
-        NoDynamicDaoFoundException exception = Assertions.assertThrows(NoDynamicDaoFoundException.class, () -> {
-            dynamicRelationDaoFactoryUnderTest.getDaoFromSourceObjectClass(
+        NoRelationDaoFoundException exception = Assertions.assertThrows(NoRelationDaoFoundException.class, () -> {
+            relationDaoFactoryUnderTest.getDaoFromSourceObjectClass(
                     AnnotationTest.class);
         });
         assertThat(exception).isNotNull();
@@ -60,9 +60,9 @@ class DynamicRelationDaoFactoryTest {
     @Test
     void getDaoFromSourceObjectClassShouldThrowRuntimeException() {
         Mockito.when(applicationContext.getBeansOfType(any(Class.class)))
-                .thenReturn(Map.ofEntries(Map.entry("wrongTestDao", dynamicRelationDao)));
+                .thenReturn(Map.ofEntries(Map.entry("wrongTestDao", relationDao)));
         RuntimeException exception = Assertions.assertThrows(RuntimeException.class, () -> {
-            dynamicRelationDaoFactoryUnderTest.getDaoFromSourceObjectClass(
+            relationDaoFactoryUnderTest.getDaoFromSourceObjectClass(
                     AnnotaionDao.class);
         });
         assertThat(exception).isNotNull();
