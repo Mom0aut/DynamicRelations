@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Relation(type = "Testing", sourceClass = TestFile.class)
+@Relation(sourceClass = TestFile.class)
 @Entity
 @Data
 public class TestFile {

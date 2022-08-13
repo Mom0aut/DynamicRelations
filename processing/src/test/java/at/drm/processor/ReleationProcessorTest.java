@@ -2,6 +2,7 @@ package at.drm.processor;
 
 import at.drm.annotation.Relation;
 import com.google.testing.compile.Compilation;
+import com.google.testing.compile.CompilationSubject;
 import com.google.testing.compile.JavaFileObjects;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -57,8 +58,8 @@ class ReleationProcessorTest {
                 .withProcessors(releationProcessor)
                 .compile(JavaFileObjects.forResource("TestFile.java"));
         //TODO cant compile because of lombok missing overrides annoation
-//        CompilationSubject.assertThat(compilation)
-//                .hadErrorContaining("is not abstract and does not override abstract method");
+        CompilationSubject.assertThat(compilation)
+                .hadErrorContaining("is not abstract and does not override abstract method");
 //        CompilationSubject.assertThat(compilation).succeeded();
 //        ImmutableList<JavaFileObject> generatedFiles = compilation.generatedFiles();
 //        assertThat(generatedFiles).isNotEmpty();
