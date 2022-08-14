@@ -20,7 +20,7 @@
 
         <dependency>
             <groupId>at.drm</groupId>
-            <artifactId>dynamic-relation</artifactId>
+            <artifactId>dynamic-relations</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
