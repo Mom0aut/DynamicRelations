@@ -124,7 +124,6 @@
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
-
                 </executions>
             </plugin>
 
