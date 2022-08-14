@@ -7,4 +7,4 @@ Dynamic Relation Model for Java EE Projects
 
 # Contribution
 
-Every Contributor is welcome, pls follow the [Contribution Guidlines](https://github.com/Mom0aut/DynamicRelations/blob/master/Contributing.md)
+Every Contribution is welcome, pls follow the [Contribution Guidlines](https://github.com/Mom0aut/DynamicRelations/blob/master/Contributing.md)
