@@ -188,8 +188,6 @@
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
-
-
         </plugins>
     </build>
 
