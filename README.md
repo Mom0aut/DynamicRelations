@@ -3,7 +3,20 @@
 [![Java CI with Maven](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml/badge.svg)](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml) [![Coverage](.github/badges/jacoco.svg)](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml)
 
 
-Dynamic Relation Model for Java EE Projects
+Dynamic Relation Model for Java EE Projects. With Dynamic Relations you can add or delete Custom Relations between Entities during runtime. Simply Add the @Relation to your existing Entity and necessary Dynamic Relations Entity will be generated. 
+
+# What is an Dynamic Relation?
+
+Todo insert Pictures and explanation for Dynamic Relation.
+
+# Maven Dependency
+
+Todo need to deploy to Maven Central!
+
+# How to use
+Todo show Example with @Relation
+
+
 
 # Contribution
 
