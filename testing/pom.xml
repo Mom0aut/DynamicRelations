@@ -19,9 +19,13 @@
         </dependency>
 
         <dependency>
-            <groupId>at</groupId>
-            <artifactId>processing</artifactId>
+            <groupId>at.drm</groupId>
+            <artifactId>dynamic-relation</artifactId>
             <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
         </dependency>
     </dependencies>
 
