@@ -44,7 +44,7 @@ jobs:
         with:
           author_name: Mom0aut
           author_email: reinhart19_91@hotmail.com
-          message: 'commit skip ci badge'
+          message: '[skip ci] commit badge'
           add: '*.svg'
 
       - name: Upload JaCoCo coverage report
