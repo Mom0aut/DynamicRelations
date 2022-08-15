@@ -62,12 +62,12 @@ graph TD;
 # How to use
 
 
-- Add the @Relation to your Entity(#Relation)
-- Implement RelationIdentity(#RelationIdentity)
-- Import Config Module for Component Scan(#ImportConfig)
+- [Add the @Relation to your Entity](#Relation)
+- [Implement RelationIdentity](#RelationIdentity)
+- [Import Config Module for Component Scan](#ImportConfig)
 
 ## <a name="Relation"></a> Add the @Relation
-Simply Add the @Relation to your existing Entity and the necessary Dynamic Relations Entity will be generated. 
+Simply Add the @Relation to your existing Entity and the necessary Dynamic Relations Entity will be generated. Dynamic Relations are only working with Classed wich are **annotated with @Entity**!
 
 ```
 @Relation(sourceClass = Person.class)
@@ -88,7 +88,7 @@ public class Person implements RelationIdentity {
 
 ```
 
-## <a name="Relation"></a> Implement RelationIdentity
+## <a name="RelationIdentity"></a> Implement RelationIdentity
 Implement the RelationIdentity, each Dynamic Relation need an Long id and an String Type which you can define.
 
 ```
