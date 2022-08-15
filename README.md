@@ -11,7 +11,13 @@ Todo insert Pictures and explanation for Dynamic Relation.
 
 # Maven Dependency
 
-Todo need to deploy to Maven Central!
+```
+<dependency>
+  <groupId>io.github.Mom0aut</groupId>
+  <artifactId>dynamic-relations</artifactId>
+  <version>1.0.2</version>
+</dependency>
+```
 
 # How to use
 Todo show Example with @Relation
