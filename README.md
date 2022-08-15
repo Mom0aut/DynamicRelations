@@ -220,3 +220,7 @@ public class App {
 
 Every Contribution is welcome, please follow
 the [Contribution Guidlines](https://github.com/Mom0aut/DynamicRelations/blob/master/Contributing.md)
+
+# Code of Condcut
+
+See our [Code of Conduct](https://github.com/Mom0aut/DynamicRelations/blob/master/CODE_OF_CONDUCT.md)
