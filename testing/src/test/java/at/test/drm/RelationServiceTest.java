@@ -10,7 +10,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -53,6 +55,15 @@ public class RelationServiceTest {
         AnnotationTest annotationTest = new AnnotationTest();
         annotationTest.setId(1L);
         List<RelationLink> relationBySourceObject = relationService.findRelationBySourceObject(annotationTest);
+    }
+
+    @Test
+    void findRelationByTargetRelationIdentity() {
+        Mockito.when(relationDaoFactory.getAllDaos())
+                .thenReturn(Collections.singleton(annotationTestRelationDao));
+        AnnotationTest annotationTest = new AnnotationTest();
+        annotationTest.setId(1L);
+        Set<RelationLink> relationByTargetRelationIdentity = relationService.findRelationByTargetRelationIdentity(annotationTest);
     }
 
 }
