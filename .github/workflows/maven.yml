@@ -45,7 +45,7 @@ jobs:
           branch: master
           author_name: Mom0aut
           author_email: reinhart19_91@hotmail.com
-          push: origin main
+          push: origin master
           message: 'commit badge'
           add: '*.svg'
 
