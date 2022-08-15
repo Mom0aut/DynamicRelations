@@ -62,13 +62,12 @@ graph TD;
 # How to use
 
 
-- Add the @Relation
-- Implement RelationIdentity
-- Import Config Module for Component Scan
+- Add the @Relation to your Entity(#Relation)
+- Implement RelationIdentity(#RelationIdentity)
+- Import Config Module for Component Scan(#ImportConfig)
 
-
+## <a name="Relation"></a> Add the @Relation
 Simply Add the @Relation to your existing Entity and the necessary Dynamic Relations Entity will be generated. 
-
 
 ```
 @Relation(sourceClass = Person.class)
@@ -89,7 +88,43 @@ public class Person implements RelationIdentity {
 
 ```
 
+## <a name="Relation"></a> Implement RelationIdentity
+Implement the RelationIdentity, each Dynamic Relation need an Long id and an String Type which you can define.
 
+```
+@Relation(sourceClass = Person.class)
+@Entity
+@Getter
+@Setter
+public class Person implements RelationIdentity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Override
+    public String getType() {
+        return "PersonType";
+    }
+}
+
+```
+
+## <a name="ImportConfig"></a> Import Config Module for Component Scan
+Import the DrmConfig in your Spring Boot Application, so that you can use the RelationService
+
+```
+@SpringBootApplication
+@Import(DrmConfig.class)
+public class App {
+
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
+    }
+
+}
+
+```
 
 
 # Contribution
