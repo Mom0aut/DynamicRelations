@@ -9,10 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Relation(sourceClass = AnnotationTest2.class)
+@Relation(sourceClass = AnnotationTest3.class)
 @Entity
 @Data
-public class AnnotationTest2 implements RelationIdentity {
+public class AnnotationTest3 implements RelationIdentity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +20,6 @@ public class AnnotationTest2 implements RelationIdentity {
 
     @Override
     public String getType() {
-        return "AnnotationType2";
+        return "AnnotationType3";
     }
 }

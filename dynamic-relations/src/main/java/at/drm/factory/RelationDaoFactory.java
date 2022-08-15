@@ -9,7 +9,9 @@ import org.springframework.core.ResolvableType;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -31,6 +33,12 @@ public class RelationDaoFactory {
                     return type.equals(dynamicRelactionClass);
                 }).findFirst().orElseThrow(() -> new NoRelationDaoFoundException("No DynamicRelationDao was found!"));
         return relationDao;
+    }
+
+    public Set<RelationDao> getAllDaos() {
+        Map<String, RelationDao> beansOfType = applicationContext.getBeansOfType(RelationDao.class);
+        Set<RelationDao> relationDaos = new HashSet<>(beansOfType.values());
+        return relationDaos;
     }
 
     private Field getDeclaredField(Class<?> resolve, String field) {

@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
+import java.util.List;
+import java.util.Set;
+
 @SpringBootTest
 @Disabled
 //Test
@@ -20,6 +23,9 @@ class RelationTest {
 
     @Autowired
     private Annotaion2Dao annotaion2Dao;
+
+    @Autowired
+    private Annotaion3Dao annotaion3Dao;
 
     private final RelationDaoFactory relationDaoFactory;
 
@@ -40,8 +46,22 @@ class RelationTest {
 
         AnnotationTest2 annotationTest2 = new AnnotationTest2();
         annotaion2Dao.save(annotationTest2);
-        RelationLink test = relationService.createRelation(annotationTest2, annotationTest);
-        relationService.deleteRelation(test);
+
+        AnnotationTest3 annotationTest3 = new AnnotationTest3();
+        annotaion3Dao.save(annotationTest3);
+
+        RelationLink test = relationService.createRelation(annotationTest, annotationTest2);
+        RelationLink test2 = relationService.createRelation(annotationTest, annotationTest3);
+        RelationLink test3 = relationService.createRelation(annotationTest2, annotationTest3);
+
+        RelationLink relationLink = relationService.findRelationBySourceObjectAndRelationIdentity(annotationTest, annotationTest2);
+
+        List<RelationLink> relationBySourceObject = relationService.findRelationBySourceObject(annotationTest);
+
+
+        Set<RelationLink> relationByTargetRelationIdentity = relationService.findRelationByTargetRelationIdentity(annotationTest3);
+
+        System.out.println();
 
     }
 
