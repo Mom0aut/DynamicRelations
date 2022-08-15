@@ -1,13 +1,54 @@
-# Dynamic Relation Model
+# Dynamic Relations
 
 [![Java CI with Maven](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml/badge.svg)](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml) [![Coverage](.github/badges/jacoco.svg)](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml)
 
 
-Dynamic Relation Model for Java EE Projects. With Dynamic Relations you can add or delete Custom Relations between Entities during runtime. Simply Add the @Relation to your existing Entity and necessary Dynamic Relations Entity will be generated. 
+Dynamic Relations for Java EE Projects. Often Relations can be dynamic and difficult to predict and implement. With Dynamic Relations you can add or delete Custom Relations between Entities during runtime. The Target of the Dynamic Relation can be complete dynamic.
 
-# What is an Dynamic Relation?
+# What is a Dynamic Relation?
 
-Todo insert Pictures and explanation for Dynamic Relation.
+A Dynamic Relation can be viewed as a directed Graph with a fixed Input (SourceObject) and a dynmic Output (Target).
+
+```mermaid
+flowchart LR
+    SourceObject-->|DynamicRelation|Target
+```
+
+
+
+For Example with following Entities:
+
+- Person
+- Dog
+- Document
+
+A Person can have a Dog and both Entites could have Documents(Person Info Documents and Dog Info Documents). Now you could add Dynamic Relations to all Enties which could look like this: 
+
+```mermaid
+graph TD;
+    Person-->Dog;
+    Person-->Person_Document
+    Dog-->Dog_Document;
+```
+
+Each Connection is a Dynamic Relation and following Relations would be generated:
+
+- Person Relation with SourceObject Person
+- Person_Document Relation with SourceObject Person_Document
+- Dog Relation with SourceObject Dog
+- Dog_Document Relation with SourceObject Dog_Document
+
+Each Relation got an Dynamic Target, that means you could create an Relation to any other Relation.
+
+In this Scenario a Person have a Dog and both got Documents, now you could change the Relation during runtime (No altering of your Entities or Models). For example you could delete a Person_Document(got lost):
+
+```mermaid
+graph TD;
+    Person-->Dog;
+    Dog-->Dog_Document;
+```
+
+
 
 # Maven Dependency
 
@@ -20,7 +61,8 @@ Todo insert Pictures and explanation for Dynamic Relation.
 ```
 
 # How to use
-Todo show Example with @Relation
+Simply Add the @Relation to your existing Entity and necessary Dynamic Relations Entity will be generated. 
+
 
 
 
