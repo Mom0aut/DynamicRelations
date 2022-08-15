@@ -34,4 +34,13 @@ public class RelationServiceTest {
         relationService.createRelation(annotationTest, annotationTest2);
     }
 
+    @Test
+    void deleteRelation() {
+        Mockito.when(relationDaoFactory.getDaoFromSourceObjectClass(any(Class.class)))
+                .thenReturn(annotationTestRelationDao);
+        AnnotationTestRelation annotationTestRelation = new AnnotationTestRelation();
+        annotationTestRelation.setSourceObject(new AnnotationTest());
+        relationService.deleteRelation(annotationTestRelation);
+    }
+
 }
