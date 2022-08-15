@@ -57,10 +57,8 @@ class RelationTest {
         RelationLink relationLink = relationService.findRelationBySourceObjectAndRelationIdentity(annotationTest, annotationTest2);
 
         List<RelationLink> relationBySourceObject = relationService.findRelationBySourceObject(annotationTest);
-
-
         Set<RelationLink> relationByTargetRelationIdentity = relationService.findRelationByTargetRelationIdentity(annotationTest3);
-
+        relationService.deleteRelation(test);
         System.out.println();
 
     }
