@@ -144,7 +144,9 @@ public class App {
 ```
 **Dynamic Relation can only be created with persisted Entites!**
 
-
+# Limitations
+- Java EE with Spring
+- Sql Database (tested with Postgres)
 
 # Contribution
 
