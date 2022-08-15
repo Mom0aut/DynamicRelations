@@ -148,4 +148,4 @@ public class App {
 
 # Contribution
 
-Every Contribution is welcome, pls follow the [Contribution Guidlines](https://github.com/Mom0aut/DynamicRelations/blob/master/Contributing.md)
+Every Contribution is welcome, please follow the [Contribution Guidlines](https://github.com/Mom0aut/DynamicRelations/blob/master/Contributing.md)
