@@ -49,8 +49,6 @@ graph TD;
     Dog-->Dog_Document;
 ```
 
-
-
 # Maven Dependency
 
 ```
@@ -62,7 +60,34 @@ graph TD;
 ```
 
 # How to use
-Simply Add the @Relation to your existing Entity and necessary Dynamic Relations Entity will be generated. 
+
+
+- Add the @Relation
+- Implement RelationIdentity
+- Import Config Module for Component Scan
+
+
+Simply Add the @Relation to your existing Entity and the necessary Dynamic Relations Entity will be generated. 
+
+
+```
+@Relation(sourceClass = Person.class)
+@Entity
+@Getter
+@Setter
+public class Person implements RelationIdentity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Override
+    public String getType() {
+        return "PersonType";
+    }
+}
+
+```
 
 
 
