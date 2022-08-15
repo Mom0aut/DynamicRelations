@@ -65,6 +65,7 @@ graph TD;
 - [Add the @Relation to your Entity](#Relation)
 - [Implement RelationIdentity](#RelationIdentity)
 - [Import Config Module for Component Scan](#ImportConfig)
+- [Use the RelationService](#RelationService)
 
 ## <a name="Relation"></a> Add the @Relation
 Simply Add the @Relation to your existing Entity and the necessary Dynamic Relations Entity will be generated. Dynamic Relations are only working with Classed wich are **annotated with @Entity**!
@@ -117,14 +118,32 @@ Import the DrmConfig in your Spring Boot Application, so that you can use the Re
 @SpringBootApplication
 @Import(DrmConfig.class)
 public class App {
-
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
     }
-
 }
+```
+
+## <a name="RelationService"></a> Use the RelationService
+```
+    @Autowired
+    private RelationService relationService;
+   
+    void createRelation() {
+
+        Person person = new person();
+        personDao.save(person);
+
+        Dog dog = new Dog();
+        dogDao.save(dog);
+        
+        //Dynamic Relation can only be created with persisted Entites!
+        RelationLink relationLink = relationService.createRelation(person, dog);
+    }
 
 ```
+**Dynamic Relation can only be created with persisted Entites!**
+
 
 
 # Contribution
