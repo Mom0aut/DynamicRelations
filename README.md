@@ -3,7 +3,7 @@
 [![Java CI with Maven](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml/badge.svg)](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml) [![Coverage](.github/badges/jacoco.svg)](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml)
 
 
-Dynamic Relations for Java EE Projects. Often Relations can be dynamic and difficult to predict and implement. With Dynamic Relations you can add or delete Custom Relations between Entities during runtime. The Target of the Dynamic Relation can be complete dynamic.
+Often Relations can be dynamic and difficult to predict and implement. With Dynamic Relations you can add or delete Custom Relations between Entities during runtime. The Target of the Dynamic Relation can be complete dynamic.
 
 # What is a Dynamic Relation?
 
