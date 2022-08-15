@@ -39,7 +39,7 @@ jobs:
       - name: Commit and push the badge (if it changed)
         uses: EndBug/add-and-commit@v7
         with:
-          default_author: Mom0aut
+          author_name: Mom0aut
           message: 'commit badge'
           add: '*.svg'
 
