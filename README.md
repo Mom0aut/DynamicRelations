@@ -125,6 +125,9 @@ public class App {
 ```
 
 ## <a name="RelationService"></a> Use the RelationService
+
+### Create Relation
+
 ```
     @Autowired
     private RelationService relationService;
@@ -138,11 +141,69 @@ public class App {
         dogDao.save(dog);
         
         //Dynamic Relation can only be created with persisted Entites!
-        RelationLink relationLink = relationService.createRelation(person, dog);
+        RelationLink relationLinkPersonToDog = relationService.createRelation(person, dog);
     }
 
 ```
 **Dynamic Relation can only be created with persisted Entites!**
+
+### Delete Relation
+
+```
+    @Autowired
+    private RelationService relationService;
+   
+    void deleteRelation() {
+        relationService.deleteRelation(relationToBeDeleted);
+    }
+
+```
+
+### Find Relations
+
+```
+    @Autowired
+    private RelationService relationService;
+   
+    void findRelations() {
+    
+     Person person = new person();
+     personDao.save(person);
+
+     Dog dog = new Dog();
+     dogDao.save(dog);
+     
+     Document document = new Document();
+     documentDaio.save(document)
+        
+     //Dynamic Relation can only be created with persisted Entites!
+     RelationLink relationLinkPersonToDog = relationService.createRelation(person, dog);
+     RelationLink relationLinkPersonToDocument = relationService.createRelation(person, document);
+     RelationLink relationLinkDogToDocument = relationService.createRelation(dog, document);
+     
+     //Return 1 Relation person -> dog
+     RelationLink foundRelation = relationService.findRelationBySourceObjectAndRelationIdentity(person, dog);
+     //Returns 2 Relations person -> dog and person -> document
+     List<RelationLink> relationBySourcePerson = relationService.findRelationBySourceObject(person);
+     //Returns 2 Relations from person -> document and dog -> document
+     Set<RelationLink> relationByTargetDocument = relationService.findRelationByTargetRelationIdentity(document);
+    }
+
+```
+
+### Get the SourceObject by Relation
+
+```
+    @Autowired
+    private RelationService relationService;
+   
+    void getSourceObject() {
+        RelationLink foundRelation = relationService.findRelationBySourceObjectAndRelationIdentity(person, dog);
+        //Can be casted to Person because we know it is from Person.class
+        Person sourceObject = (Person)foundRelation.getSourceObject();
+    }
+
+```
 
 # Limitations
 - Java EE with Spring
