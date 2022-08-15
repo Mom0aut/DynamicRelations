@@ -11,10 +11,11 @@ A Dynamic Relation can be viewed as a directed Graph with a fixed Input (SourceO
 
 ```mermaid
 flowchart LR
-    SourceObject-->|DynamicRelation|Target
+    subgraph DynamicRelation
+    direction LR
+    SourceObject-->Target
+    end
 ```
-
-
 
 For Example with following Entities:
 
