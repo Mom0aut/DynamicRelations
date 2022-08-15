@@ -51,3 +51,4 @@ atlassian-ide-plugin.xml
 
 # VS Code
 .vscode/
+*.flattened-pom.xml
