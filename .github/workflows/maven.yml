@@ -13,7 +13,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[commit badge]')"
 
     steps:
       - uses: actions/checkout@v3
@@ -45,7 +44,7 @@ jobs:
         with:
           author_name: Mom0aut
           author_email: reinhart19_91@hotmail.com
-          message: 'commit badge'
+          message: 'commit skip ci badge'
           add: '*.svg'
 
       - name: Upload JaCoCo coverage report
