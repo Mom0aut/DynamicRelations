@@ -2,7 +2,6 @@ package at.drm.factory;
 
 import at.drm.dao.RelationDao;
 import at.drm.exception.NoRelationDaoFoundException;
-import at.drm.model.RelationLink;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.ResolvableType;
@@ -19,9 +18,9 @@ public class RelationDaoFactory {
 
     private final ApplicationContext applicationContext;
 
-    public RelationDao<RelationLink, Long> getDaoFromSourceObjectClass(Class dynamicRelactionClass) {
+    public RelationDao getDaoFromSourceObjectClass(Class dynamicRelactionClass) {
         Map<String, RelationDao> beansOfType = applicationContext.getBeansOfType(RelationDao.class);
-        RelationDao<RelationLink, Long> relationDao = beansOfType.values().stream()
+        RelationDao relationDao = beansOfType.values().stream()
                 .filter(dao -> {
                     ResolvableType resolvableType = ResolvableType.forClass(dao.getClass())
                             .as(RelationDao.class);
