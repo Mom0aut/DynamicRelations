@@ -73,7 +73,7 @@ graph TD;
 Simply Add the @Relation to your existing Entity and the necessary Dynamic Relations Entity will be generated. Dynamic
 Relations are only working with Classed wich are **annotated with @Entity**!
 
-```
+```java
 @Relation(sourceClass = Person.class)
 @Entity
 @Getter
@@ -96,7 +96,7 @@ public class Person implements RelationIdentity {
 
 Implement the RelationIdentity, each Dynamic Relation need an Long id and an String Type which you can define.
 
-```
+```java
 @Relation(sourceClass = Person.class)
 @Entity
 @Getter
@@ -119,7 +119,7 @@ public class Person implements RelationIdentity {
 
 Import the DrmConfig in your Spring Boot Application, so that you can use the RelationService
 
-```
+```java
 @SpringBootApplication
 @Import(DrmConfig.class)
 public class App {
@@ -133,7 +133,7 @@ public class App {
 
 ### Create Relation
 
-```
+```java
     @Autowired
     private RelationService relationService;
    
@@ -155,7 +155,7 @@ public class App {
 
 ### Delete Relation
 
-```
+```java
     @Autowired
     private RelationService relationService;
    
@@ -167,7 +167,7 @@ public class App {
 
 ### Find Relations
 
-```
+```java
     @Autowired
     private RelationService relationService;
    
@@ -199,7 +199,7 @@ public class App {
 
 ### Get the SourceObject by Relation
 
-```
+```java
     @Autowired
     private RelationService relationService;
    
