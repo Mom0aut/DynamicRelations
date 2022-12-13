@@ -3,7 +3,7 @@
 [![Java CI with Maven](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml/badge.svg)](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml) [![Coverage](.github/badges/jacoco.svg)](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml)
 
 
-In every relational Database you must always know which relations are possible to your Entities. But sometimes these Relations are unknown or could change anytime.  With Dynamic Relations you can add or delete Custom Relations between Entities during runtime.
+In every relational Database you must always know which relations are possible to your Entities. But sometimes these Relations are unknown or could change anytime.  With Dynamic Relations you can add or delete Custom Relations between Entities during runtime. 
 
 # What is a Dynamic Relation?
 
