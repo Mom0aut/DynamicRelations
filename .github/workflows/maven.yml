@@ -15,8 +15,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          token: ${{ secrets.GITHUB_TOKEN || secrets.TOKEN}}
+          token: ${{ env.TOKEN}}
+          #token: ${{ secrets.GITHUB_TOKEN || secrets.TOKEN}}
           #token: ${{ secrets.TOKEN}}
           fetch-depth: 0
       - name: Set up JDK 17
