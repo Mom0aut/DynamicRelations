@@ -20,6 +20,7 @@ import java.util.Set;
 @Import(DrmConfig.class)
 @AutoConfigureEmbeddedDatabase(provider = DatabaseProvider.ZONKY)
 class ApplicationIntegrationTest {
+    
     @Autowired
     private AnnotaionDao dao;
     @Autowired
@@ -40,12 +41,15 @@ class ApplicationIntegrationTest {
 
         relationService.createRelation(first, second);
         relationService.createRelation(first, third);
-        final List<RelationLink> relationBySourceObject = relationService.findRelationBySourceObject(first);
+        final List<RelationLink> relationBySourceObject =
+                relationService.findRelationBySourceObject(first);
 
         Assertions.assertThat(relationBySourceObject).isNotNull();
         Assertions.assertThat(relationBySourceObject.size()).isEqualTo(2);
-        Assertions.assertThat(relationBySourceObject.get(0).getTargetType()).isEqualTo(second.getType());
-        Assertions.assertThat(relationBySourceObject.get(1).getTargetType()).isEqualTo(third.getType());
+        Assertions.assertThat(relationBySourceObject.get(0).getTargetType())
+                .isEqualTo(second.getType());
+        Assertions.assertThat(relationBySourceObject.get(1).getTargetType())
+                .isEqualTo(third.getType());
     }
 
     @Test
@@ -60,12 +64,15 @@ class ApplicationIntegrationTest {
         relationService.createRelation(first, second);
         relationService.createRelation(first, third);
         relationService.createRelation(second, third);
-        final Set<RelationLink> byTarget = relationService.findRelationByTargetRelationIdentity(third);
+        final Set<RelationLink> byTarget =
+                relationService.findRelationByTargetRelationIdentity(third);
 
         Assertions.assertThat(byTarget).isNotNull();
         Assertions.assertThat(byTarget.size()).isEqualTo(2);
-        Assertions.assertThat(byTarget.stream().anyMatch(r -> r.getSourceObject().equals(first))).isTrue();
-        Assertions.assertThat(byTarget.stream().anyMatch(r -> r.getSourceObject().equals(second))).isTrue();
+        Assertions.assertThat(byTarget.stream().anyMatch(r -> r.getSourceObject().equals(first)))
+                .isTrue();
+        Assertions.assertThat(byTarget.stream().anyMatch(r -> r.getSourceObject().equals(second)))
+                .isTrue();
     }
 
     @Test
@@ -80,7 +87,8 @@ class ApplicationIntegrationTest {
         relationService.createRelation(first, second);
         relationService.createRelation(first, third);
         relationService.createRelation(second, third);
-        final RelationLink bySourceAndIdentity = relationService.findRelationBySourceObjectAndRelationIdentity(first, second);
+        final RelationLink bySourceAndIdentity =
+                relationService.findRelationBySourceObjectAndRelationIdentity(first, second);
 
         Assertions.assertThat(bySourceAndIdentity).isNotNull();
         Assertions.assertThat(bySourceAndIdentity.getSourceObject()).isEqualTo(first);
@@ -99,11 +107,13 @@ class ApplicationIntegrationTest {
         relationService.createRelation(first, second);
         relationService.createRelation(first, third);
         relationService.createRelation(second, third);
-        final RelationLink bySourceAndIdentity = relationService.findRelationBySourceObjectAndRelationIdentity(first, second);
+        final RelationLink bySourceAndIdentity =
+                relationService.findRelationBySourceObjectAndRelationIdentity(first, second);
 
         relationService.deleteRelation(bySourceAndIdentity);
 
-        final RelationLink afterDelete = relationService.findRelationBySourceObjectAndRelationIdentity(first, second);
+        final RelationLink afterDelete =
+                relationService.findRelationBySourceObjectAndRelationIdentity(first, second);
         Assertions.assertThat(afterDelete).isNull();
     }
 }
