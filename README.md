@@ -2,8 +2,9 @@
 
 [![Java CI with Maven](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml/badge.svg)](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml) [![Coverage](.github/badges/jacoco.svg)](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml)
 
-
-In every relational Database you must always know which relations are possible to your Entities. But sometimes these Relations are unknown or could change anytime.  With Dynamic Relations you can add or delete Custom Relations between Entities during runtime. 
+In every relational Database you must always know which relations are possible to your Entities. But sometimes these
+Relations are unknown or could change anytime. With Dynamic Relations you can add or delete Custom Relations between
+Entities during runtime.
 
 # What is a Dynamic Relation?
 
@@ -57,7 +58,7 @@ graph TD;
 <dependency>
   <groupId>io.github.Mom0aut</groupId>
   <artifactId>dynamic-relations</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
 </dependency>
 ```
 
@@ -74,6 +75,7 @@ Simply Add the @Relation to your existing Entity and the necessary Dynamic Relat
 Relations are only working with Classed wich are **annotated with @Entity**!
 
 ```java
+
 @Relation(sourceClass = Person.class)
 @Entity
 @Getter
@@ -97,6 +99,7 @@ public class Person implements RelationIdentity {
 Implement the RelationIdentity, each Dynamic Relation need an Long id and an String Type which you can define.
 
 ```java
+
 @Relation(sourceClass = Person.class)
 @Entity
 @Getter
@@ -120,6 +123,7 @@ public class Person implements RelationIdentity {
 Import the DrmConfig in your Spring Boot Application, so that you can use the RelationService
 
 ```java
+
 @SpringBootApplication
 @Import(DrmConfig.class)
 public class App {
@@ -134,20 +138,19 @@ public class App {
 ### Create Relation
 
 ```java
-@Autowired
-private RelationService relationService;
-   
-void createRelation() {
+@Autowired private RelationService relationService;
 
-    Person person = new person();
-    personDao.save(person);
+        void createRelation(){
 
-    Dog dog = new Dog();
-    dogDao.save(dog);
+        Person person=new person();
+        personDao.save(person);
 
-    //Dynamic Relation can only be created with persisted Entites!
-    RelationLink relationLinkPersonToDog = relationService.createRelation(person, dog);
-}
+        Dog dog=new Dog();
+        dogDao.save(dog);
+
+        //Dynamic Relation can only be created with persisted Entites!
+        RelationLink relationLinkPersonToDog=relationService.createRelation(person,dog);
+        }
 
 ```
 
@@ -156,58 +159,55 @@ void createRelation() {
 ### Delete Relation
 
 ```java
-@Autowired
-private RelationService relationService;
+@Autowired private RelationService relationService;
 
-void deleteRelation() {
-    relationService.deleteRelation(relationToBeDeleted);
-}
+        void deleteRelation(){
+        relationService.deleteRelation(relationToBeDeleted);
+        }
 
 ```
 
 ### Find Relations
 
 ```java
-@Autowired
-private RelationService relationService;
+@Autowired private RelationService relationService;
 
-void findRelations() {
-    
-    Person person = new person();
-    personDao.save(person);
+        void findRelations(){
 
-    Dog dog = new Dog();
-    dogDao.save(dog);
+        Person person=new person();
+        personDao.save(person);
 
-    Document document = new Document();
-    documentDaio.save(document)
+        Dog dog=new Dog();
+        dogDao.save(dog);
 
-    //Dynamic Relation can only be created with persisted Entites!
-    RelationLink relationLinkPersonToDog = relationService.createRelation(person, dog);
-    RelationLink relationLinkPersonToDocument = relationService.createRelation(person, document);
-    RelationLink relationLinkDogToDocument = relationService.createRelation(dog, document);
+        Document document=new Document();
+        documentDaio.save(document)
 
-    //Return 1 Relation person -> dog
-    RelationLink foundRelation = relationService.findRelationBySourceObjectAndRelationIdentity(person, dog);
-    //Returns 2 Relations person -> dog and person -> document
-    List<RelationLink> relationBySourcePerson = relationService.findRelationBySourceObject(person);
-    //Returns 2 Relations from person -> document and dog -> document
-    Set<RelationLink> relationByTargetDocument = relationService.findRelationByTargetRelationIdentity(document);
-}
+        //Dynamic Relation can only be created with persisted Entites!
+        RelationLink relationLinkPersonToDog=relationService.createRelation(person,dog);
+        RelationLink relationLinkPersonToDocument=relationService.createRelation(person,document);
+        RelationLink relationLinkDogToDocument=relationService.createRelation(dog,document);
+
+        //Return 1 Relation person -> dog
+        RelationLink foundRelation=relationService.findRelationBySourceObjectAndRelationIdentity(person,dog);
+        //Returns 2 Relations person -> dog and person -> document
+        List<RelationLink> relationBySourcePerson=relationService.findRelationBySourceObject(person);
+        //Returns 2 Relations from person -> document and dog -> document
+        Set<RelationLink> relationByTargetDocument=relationService.findRelationByTargetRelationIdentity(document);
+        }
 
 ```
 
 ### Get the SourceObject by Relation
 
 ```java
-@Autowired
-private RelationService relationService;
+@Autowired private RelationService relationService;
 
-void getSourceObject() {
-    RelationLink foundRelation = relationService.findRelationBySourceObjectAndRelationIdentity(person, dog);
-    //Can be casted to Person because we know it is from Person.class
-    Person sourceObject = (Person)foundRelation.getSourceObject();
-}
+        void getSourceObject(){
+        RelationLink foundRelation=relationService.findRelationBySourceObjectAndRelationIdentity(person,dog);
+        //Can be casted to Person because we know it is from Person.class
+        Person sourceObject=(Person)foundRelation.getSourceObject();
+        }
 
 ```
 

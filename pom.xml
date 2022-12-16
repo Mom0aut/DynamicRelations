@@ -134,6 +134,7 @@
     </profiles>
 
     <properties>
+        <revision>1.0.4</revision>
         <flatten-maven-plugin.version>1.2.7</flatten-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
         <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
@@ -143,7 +144,6 @@
         <maven.compiler.target>17</maven.compiler.target>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <revision>1.0.3</revision>
         <lombok.version>1.18.24</lombok.version>
     </properties>
 
