@@ -11,7 +11,7 @@
     <artifactId>dynamic-relations</artifactId>
 
     <properties>
-        <postgresql.version>42.3.6</postgresql.version>
+        <postgresql.version>42.3.8</postgresql.version>
         <auto-service.version>1.0.1</auto-service.version>
         <compile-testing.version>0.19</compile-testing.version>
         <javapoet.version>1.13.0</javapoet.version>
