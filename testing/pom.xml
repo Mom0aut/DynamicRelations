@@ -13,8 +13,10 @@
     <properties>
         <embedded-database-spring-test.version>2.2.0</embedded-database-spring-test.version>
         <embedded-postgres.version>2.0.2</embedded-postgres.version>
-        <spring-boot-starter-web.version>2.7.2</spring-boot-starter-web.version>
+        <spring-boot-starter-web.version>2.7.3</spring-boot-starter-web.version>
         <spring-context.version>5.3.22</spring-context.version>
+        <flyway-core.version>9.10.0</flyway-core.version>
+        <flyway-maven-plugin.version>9.8.1</flyway-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -45,5 +47,20 @@
             <artifactId>spring-context</artifactId>
             <version>${spring-context.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway-core.version}</version>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${flyway-maven-plugin.version}</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>
