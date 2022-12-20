@@ -2,13 +2,13 @@
 
 [![Java CI with Maven](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml/badge.svg)](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml) [![Coverage](.github/badges/jacoco.svg)](https://github.com/Mom0aut/DynamicRelations/actions/workflows/maven.yml)
 
-In every relational Database you must always know which relations are possible to your Entities. But sometimes these
-Relations are unknown or could change anytime. With Dynamic Relations you can add or delete Custom Relations between
-Entities during runtime.
+In every relational database you must always know which relations are possible to your entities. But sometimes these
+relations are unknown or could change anytime. With Dynamic Relations you can add or delete custom relations between
+entities during runtime.
 
 # What is a Dynamic Relation?
 
-A Dynamic Relation can be viewed as a directed Graph with a fixed Input (SourceObject) and a dynmic Output (Target).
+A dynamic relation can be viewed as a directed graph with a fixed input (SourceObject) and a dynmic output (Target).
 
 ```mermaid
 flowchart LR
@@ -18,14 +18,14 @@ flowchart LR
     end
 ```
 
-For Example with following Entities:
+For example with following entities:
 
 - Person
 - Dog
 - Document
 
-A Person can have a Dog and both Entites could have Documents(Person Info Documents and Dog Info Documents). Now you
-could add Dynamic Relations to all Enties which could look like this:
+A person can have a dog and both entites could have documents(person info documents and dog info documents). Now you
+could add dynamic relations to all entities which could look like this:
 
 ```mermaid
 graph TD;
@@ -34,16 +34,16 @@ graph TD;
     Dog-->Dog_Document;
 ```
 
-Each Connection is a Dynamic Relation and following Relations would be generated:
+Each connection is a dynamic relation and following relations will be generated:
 
 - Person Relation with SourceObject Person
 - Person_Document Relation with SourceObject Person_Document
 - Dog Relation with SourceObject Dog
 - Dog_Document Relation with SourceObject Dog_Document
 
-Each Relation got an Dynamic Target, that means you could create an Relation to any other Relation.
+Each relation got an dynamic target, that means you could create an relation to any other relation.
 
-In this Scenario a Person have a Dog and both got Documents, now you could change the Relation during runtime (No
+In this scenario a person have a dog and both got documents, now you could change the relation during runtime (no
 altering of your Entities or Models). For example you could delete a Person_Document(got lost):
 
 ```mermaid
@@ -52,7 +52,7 @@ graph TD;
     Dog-->Dog_Document;
 ```
 
-# Maven Dependency
+# Maven dependency
 
 ```
 <dependency>
@@ -71,8 +71,8 @@ graph TD;
 
 ## <a name="Relation"></a> Add the @Relation
 
-Simply Add the @Relation to your existing Entity and the necessary Dynamic Relations Entity will be generated. Dynamic
-Relations are only working with Classed wich are **annotated with @Entity**!
+Simply add the @Relation to your existing entity and the necessary dynamic relations entity will be generated. Dynamic
+relations are only working with classed wich are **annotated with @Entity**!
 
 ```java
 
@@ -96,7 +96,7 @@ public class Person implements RelationIdentity {
 
 ## <a name="RelationIdentity"></a> Implement RelationIdentity
 
-Implement the RelationIdentity, each Dynamic Relation need an Long id and an String Type which you can define.
+Implement the relationIdentity, each dynamic relation need an Long id and an String Type which you can define.
 
 ```java
 
@@ -154,7 +154,7 @@ public class App {
 
 ```
 
-**Dynamic Relation can only be created with persisted Entites!**
+**Dynamic relation can only be created with persisted Entites!**
 
 ### Delete Relation
 
@@ -218,7 +218,7 @@ public class App {
 
 # Contribution
 
-Every Contribution is welcome, please follow
+Every contribution is welcome, please follow
 the [Contribution Guidlines](https://github.com/Mom0aut/DynamicRelations/blob/master/Contributing.md)
 
 # Code of Condcut
