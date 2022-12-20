@@ -216,7 +216,7 @@ public class App {
 - Java EE with Spring
 - Sql Database (tested with Postgres)
 
-#Contributors
+# Contributors
 
 <a href="https://github.com/Mom0aut/DynamicRelations/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Mom0aut/DynamicRelations" />
