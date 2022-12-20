@@ -138,7 +138,8 @@ public class App {
 ### Create Relation
 
 ```java
-@Autowired private RelationService relationService;
+@Autowired 
+private RelationService relationService;
 
         void createRelation(){
 
@@ -159,7 +160,8 @@ public class App {
 ### Delete Relation
 
 ```java
-@Autowired private RelationService relationService;
+@Autowired 
+private RelationService relationService;
 
         void deleteRelation(){
         relationService.deleteRelation(relationToBeDeleted);
@@ -170,7 +172,8 @@ public class App {
 ### Find Relations
 
 ```java
-@Autowired private RelationService relationService;
+@Autowired 
+private RelationService relationService;
 
         void findRelations(){
 
@@ -201,7 +204,8 @@ public class App {
 ### Get the SourceObject by Relation
 
 ```java
-@Autowired private RelationService relationService;
+@Autowired 
+private RelationService relationService;
 
         void getSourceObject(){
         RelationLink foundRelation=relationService.findRelationBySourceObjectAndRelationIdentity(person,dog);
