@@ -10,40 +10,26 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>dynamic-relations</artifactId>
 
-    <properties>
-        <postgresql.version>42.3.8</postgresql.version>
-        <auto-service.version>1.0.1</auto-service.version>
-        <compile-testing.version>0.19</compile-testing.version>
-        <javapoet.version>1.13.0</javapoet.version>
-        <spring-boot-starter-data-jpa.version>2.7.2</spring-boot-starter-data-jpa.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.google.auto.service</groupId>
             <artifactId>auto-service</artifactId>
-            <version>${auto-service.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.testing.compile</groupId>
             <artifactId>compile-testing</artifactId>
-            <version>${compile-testing.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.squareup</groupId>
             <artifactId>javapoet</artifactId>
-            <version>${javapoet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>${spring-boot-starter-data-jpa.version}</version>
         </dependency>
     </dependencies>
 
