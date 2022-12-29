@@ -14,6 +14,7 @@
     <properties>
         <code.coverage.project.folder>${basedir}/../</code.coverage.project.folder>
         <code.coverage.overall.data.folder>${basedir}/../target/aggregate.exec</code.coverage.overall.data.folder>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
     </properties>
 
