@@ -143,23 +143,18 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lombok.version>1.18.24</lombok.version>
         <postgresql.version>42.3.8</postgresql.version>
         <auto-service.version>1.0.1</auto-service.version>
         <compile-testing.version>0.19</compile-testing.version>
         <javapoet.version>1.13.0</javapoet.version>
         <spring-boot-starter-data-jpa.version>2.7.2</spring-boot-starter-data-jpa.version>
-        <code.coverage.project.folder>${basedir}/../</code.coverage.project.folder>
-        <code.coverage.overall.data.folder>${basedir}/../target/aggregate.exec</code.coverage.overall.data.folder>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
         <embedded-database-spring-test.version>2.2.0</embedded-database-spring-test.version>
         <embedded-postgres.version>2.0.2</embedded-postgres.version>
         <spring-boot-starter-web.version>2.7.3</spring-boot-starter-web.version>
         <spring-context.version>5.3.22</spring-context.version>
         <flyway-core.version>9.10.0</flyway-core.version>
-        <flyway-maven-plugin.version>9.8.1</flyway-maven-plugin.version>
     </properties>
 
     <dependencies>

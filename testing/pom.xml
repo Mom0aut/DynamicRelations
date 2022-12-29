@@ -10,6 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>testing</artifactId>
 
+    <properties>
+        <flyway-maven-plugin.version>9.8.1</flyway-maven-plugin.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>io.github.Mom0aut</groupId>

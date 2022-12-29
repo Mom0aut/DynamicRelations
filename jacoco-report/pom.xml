@@ -11,6 +11,12 @@
     <artifactId>jacoco-report</artifactId>
     <packaging>pom</packaging>
 
+    <properties>
+        <code.coverage.project.folder>${basedir}/../</code.coverage.project.folder>
+        <code.coverage.overall.data.folder>${basedir}/../target/aggregate.exec</code.coverage.overall.data.folder>
+        <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>io.github.Mom0aut</groupId>
