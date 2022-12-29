@@ -22,15 +22,11 @@
         <dependency>
             <groupId>io.github.Mom0aut</groupId>
             <artifactId>dynamic-relations</artifactId>
-            <version>${revision}</version>
         </dependency>
-
         <dependency>
             <groupId>io.github.Mom0aut</groupId>
             <artifactId>testing</artifactId>
-            <version>${revision}</version>
         </dependency>
-
     </dependencies>
 
     <build>
