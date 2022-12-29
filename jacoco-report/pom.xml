@@ -15,6 +15,7 @@
         <code.coverage.project.folder>${basedir}/../</code.coverage.project.folder>
         <code.coverage.overall.data.folder>${basedir}/../target/aggregate.exec</code.coverage.overall.data.folder>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -37,7 +38,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.8</version>
+                <version>${jacoco-maven-plugin.version}</version>
                 <configuration>
                     <excludes>
                         <exclude>**/at/test/drm/*</exclude>
