@@ -41,7 +41,7 @@ Each connection is a dynamic relation and following relations will be generated:
 - Dog Relation with SourceObject Dog
 - Dog_Document Relation with SourceObject Dog_Document
 
-Each relation got an dynamic target, that means you could create an relation to any other relation.
+Each relation got an dynamic target, that means you could create an relation to any other entity.
 
 In this scenario a person have a dog and both got documents, now you could change the relation during runtime (no
 altering of your Entities or Models). For example you could delete a Person_Document(got lost):
