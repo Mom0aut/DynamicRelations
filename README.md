@@ -8,7 +8,7 @@ entities during runtime.
 
 # What is a Dynamic Relation?
 
-A dynamic relation can be viewed as a directed graph with a fixed input (SourceObject) and a dynmic output (target).
+A dynamic relation can be viewed as a directed graph with a fixed input(SourceObject) and a dynmic output(target).
 
 ```mermaid
 flowchart LR
