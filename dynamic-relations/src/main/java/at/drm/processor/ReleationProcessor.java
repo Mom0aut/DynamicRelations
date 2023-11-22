@@ -6,6 +6,7 @@ import at.drm.model.RelationLink;
 import at.drm.model.RelationMetaData;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.*;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +17,6 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.type.TypeMirror;
-import javax.persistence.*;
 import javax.tools.Diagnostic;
 import java.io.IOException;
 import java.util.LinkedHashSet;
