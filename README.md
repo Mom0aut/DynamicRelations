@@ -8,7 +8,7 @@ entities during runtime.
 
 # What is a Dynamic Relation?
 
-A dynamic relation can be viewed as a directed graph with a fixed input(SourceObject) and a dynmic output(target).
+A dynamic relation can be viewed as a directed graph with a fixed input(SourceObject) and a dynamic output(target).
 
 ```mermaid
 flowchart LR
@@ -41,10 +41,10 @@ Each connection is a dynamic relation and following relations will be generated:
 - Dog Relation with SourceObject Dog
 - Dog_Document Relation with SourceObject Dog_Document
 
-Each relation got an dynamic target, that means you could create an relation to any other entity.
+Each relation got a dynamic target, that means you could create a relation to any other entity.
 
 In this scenario a person have a dog and both got documents, now you could change the relation during runtime (no
-altering of your Entities or Models). For example you could delete a Person_Document(got lost):
+altering of your Entities or Models). For example, you could delete a Person_Document(got lost):
 
 ```mermaid
 graph TD;
@@ -72,7 +72,7 @@ graph TD;
 ## <a name="Relation"></a> Add the @Relation
 
 Simply add the @Relation to your existing entity and the necessary dynamic relations entity will be generated. Dynamic
-relations are only working with classed wich are **annotated with @Entity**!
+relations are only working with classed which are **annotated with @Entity**!
 
 ```java
 
@@ -96,7 +96,7 @@ public class Person implements RelationIdentity {
 
 ## <a name="RelationIdentity"></a> Implement RelationIdentity
 
-Implement the relationIdentity, each dynamic relation need an Long id and an String Type which you can define.
+Implement the relationIdentity, each dynamic relation need a Long id and a String Type which you can define.
 
 ```java
 
@@ -141,21 +141,20 @@ public class App {
 @Autowired 
 private RelationService relationService;
 
-        void createRelation(){
-
-        Person person=new person();
-        personDao.save(person);
-
-        Dog dog=new Dog();
-        dogDao.save(dog);
-
-        //Dynamic Relation can only be created with persisted Entites!
-        RelationLink relationLinkPersonToDog=relationService.createRelation(person,dog);
+        void createRelation() {
+            Person person = new person();
+            personDao.save(person);
+    
+            Dog dog = new Dog();
+            dogDao.save(dog);
+    
+            //Dynamic Relation can only be created with persisted Entities!
+            RelationLink relationLinkPersonToDog=relationService.createRelation(person, dog);
         }
 
 ```
 
-**Dynamic relation can only be created with persisted Entites!**
+**Dynamic relation can only be created with persisted Entities!**
 
 ### Delete Relation
 
@@ -163,8 +162,8 @@ private RelationService relationService;
 @Autowired 
 private RelationService relationService;
 
-        void deleteRelation(){
-        relationService.deleteRelation(relationToBeDeleted);
+        void deleteRelation() {
+            relationService.deleteRelation(relationToBeDeleted);
         }
 
 ```
@@ -175,28 +174,27 @@ private RelationService relationService;
 @Autowired 
 private RelationService relationService;
 
-        void findRelations(){
-
-        Person person=new person();
-        personDao.save(person);
-
-        Dog dog=new Dog();
-        dogDao.save(dog);
-
-        Document document=new Document();
-        documentDaio.save(document)
-
-        //Dynamic Relation can only be created with persisted Entites!
-        RelationLink relationLinkPersonToDog=relationService.createRelation(person,dog);
-        RelationLink relationLinkPersonToDocument=relationService.createRelation(person,document);
-        RelationLink relationLinkDogToDocument=relationService.createRelation(dog,document);
-
-        //Return 1 Relation person -> dog
-        RelationLink foundRelation=relationService.findRelationBySourceObjectAndRelationIdentity(person,dog);
-        //Returns 2 Relations person -> dog and person -> document
-        List<RelationLink> relationBySourcePerson=relationService.findRelationBySourceObject(person);
-        //Returns 2 Relations from person -> document and dog -> document
-        Set<RelationLink> relationByTargetDocument=relationService.findRelationByTargetRelationIdentity(document);
+        void findRelations() {
+            Person person = new person();
+            personDao.save(person);
+    
+            Dog dog = new Dog();
+            dogDao.save(dog);
+    
+            Document document = new Document();
+            documentDaio.save(document);
+    
+            //Dynamic Relation can only be created with persisted Entities!
+            RelationLink relationLinkPersonToDog = relationService.createRelation(person, dog);
+            RelationLink relationLinkPersonToDocument = relationService.createRelation(person, document);
+            RelationLink relationLinkDogToDocument = relationService.createRelation(dog, document);
+    
+            //Return 1 Relation person -> dog
+            RelationLink foundRelation = relationService.findRelationBySourceObjectAndRelationIdentity(person, dog);
+            //Returns 2 Relations person -> dog and person -> document
+            List<RelationLink> relationBySourcePerson = relationService.findRelationBySourceObject(person);
+            //Returns 2 Relations from person -> document and dog -> document
+            Set<RelationLink> relationByTargetDocument = relationService.findRelationByTargetRelationIdentity(document);
         }
 
 ```
@@ -207,10 +205,10 @@ private RelationService relationService;
 @Autowired 
 private RelationService relationService;
 
-        void getSourceObject(){
-        RelationLink foundRelation=relationService.findRelationBySourceObjectAndRelationIdentity(person,dog);
-        //Can be casted to Person because we know it is from Person.class
-        Person sourceObject=(Person)foundRelation.getSourceObject();
+        void getSourceObject() {
+            RelationLink foundRelation = relationService.findRelationBySourceObjectAndRelationIdentity(person, dog);
+            //Can be cast to Person because we know it is from Person.class
+            Person sourceObject = (Person) foundRelation.getSourceObject();
         }
 
 ```
@@ -229,8 +227,8 @@ private RelationService relationService;
 # Contribution
 
 Every contribution is welcome, please follow
-the [Contribution Guidlines](https://github.com/Mom0aut/DynamicRelations/blob/master/Contributing.md)
+the [Contribution Guidelines](https://github.com/Mom0aut/DynamicRelations/blob/master/Contributing.md)
 
-# Code of Condcut
+# Code of Conduct
 
 See our [Code of Conduct](https://github.com/Mom0aut/DynamicRelations/blob/master/CODE_OF_CONDUCT.md)
