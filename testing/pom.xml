@@ -47,6 +47,12 @@
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>${flyway-maven-plugin.version}</version>
+                <configuration>
+                    <user>localUser</user>
+                    <password>localPw</password>
+                    <url>jdbc:postgresql://localhost:5432/localUser</url>
+                    <schemas>public</schemas>
+                </configuration>
             </plugin>
         </plugins>
     </build>
