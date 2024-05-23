@@ -215,7 +215,7 @@ private RelationService relationService;
 
 # Limitations
 
-- Java EE with Spring
+- Java with Spring
 - Sql Database (tested with Postgres)
 
 # Contributors
