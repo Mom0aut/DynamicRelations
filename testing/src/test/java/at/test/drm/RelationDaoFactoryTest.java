@@ -12,7 +12,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationContext;
 
-import java.util.Map;
+import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -66,4 +66,13 @@ class RelationDaoFactoryTest {
         assertThat(exception).isNotNull();
     }
 
+    @Test
+    void getAllDaos() {
+        Map<String, RelationDao> testBeansOfType = Map.ofEntries(Map.entry("testDaos", relationDao));
+        Mockito.when(applicationContext.getBeansOfType(any(Class.class)))
+                .thenReturn(Map.ofEntries(Map.entry("testDaos", relationDao)));
+        Set<RelationDao> actual = new HashSet<>(testBeansOfType.values());
+        Set<RelationDao> excepted = relationDaoFactoryUnderTest.getAllDaos();
+        assertThat(actual).isEqualTo(excepted);
+    }
 }
