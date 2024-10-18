@@ -15,8 +15,6 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.MirroredTypeException;
-import javax.lang.model.type.TypeMirror;
 import javax.tools.Diagnostic;
 import java.io.IOException;
 import java.util.LinkedHashSet;
@@ -71,10 +69,9 @@ public class ReleationProcessor extends AbstractProcessor {
         Relation relationAnnotation = relationElement.getAnnotation(Relation.class);
         String elementPackage = processingEnv.getElementUtils()
                 .getPackageOf(relationElement).getQualifiedName().toString();
-        TypeName sourceObjectName = getSourceObjectTypeName(relationAnnotation);
-        String sourceObjectWithoutPackages = sourceObjectName.toString().replace(elementPackage + ".", "");
+        String sourceObjectWithoutPackages = relationElement.getSimpleName().toString();
         String generatedEntityName = sourceObjectWithoutPackages + "Relation";
-        return new RelationMetaData(sourceObjectName, elementPackage, generatedEntityName, relationAnnotation);
+        return new RelationMetaData(ClassName.get(relationElement.asType()), elementPackage, generatedEntityName, relationAnnotation);
     }
 
     private void createDynamicRelationDao(RelationMetaData entityMetaData) {
@@ -132,12 +129,6 @@ public class ReleationProcessor extends AbstractProcessor {
                 .build();
     }
 
-    private TypeName getSourceObjectTypeName(Relation annotation) {
-        TypeMirror typeMirror = getSourceClass(annotation);
-        assert typeMirror != null;
-        return ClassName.get(typeMirror);
-    }
-
     private FieldSpec createSourceObjectField(TypeName typeName) {
         return FieldSpec.builder(typeName, "sourceObject", Modifier.PRIVATE)
                 .addAnnotation(ManyToOne.class)
@@ -183,17 +174,5 @@ public class ReleationProcessor extends AbstractProcessor {
                     .printMessage(Diagnostic.Kind.ERROR, "ERROR ON write file: " +
                             e.getMessage());
         }
-    }
-
-
-    //TODO refactor with the more right way see:
-    // https://stackoverflow.com/questions/7687829/java-6-annotation-processing-getting-a-class-from-an-annotation
-    private TypeMirror getSourceClass(Relation annotation) {
-        try {
-            annotation.sourceClass(); // this should throw
-        } catch (MirroredTypeException mte) {
-            return mte.getTypeMirror();
-        }
-        return null; // can this ever happen ??
     }
 }
