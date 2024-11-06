@@ -66,7 +66,6 @@ graph TD;
 
 - [Add the @Relation to your Entity](#Relation)
 - [Implement RelationIdentity](#RelationIdentity)
-- [Import Config Module for Component Scan](#ImportConfig)
 - [Use the RelationService](#RelationService)
 
 ## <a name="Relation"></a> Add the @Relation
@@ -76,7 +75,7 @@ relations are only working with classed which are **annotated with @Entity**!
 
 ```java
 
-@Relation(sourceClass = Person.class)
+@Relation
 @Entity
 @Getter
 @Setter
@@ -100,7 +99,7 @@ Implement the relationIdentity, each dynamic relation need a Long id and a Strin
 
 ```java
 
-@Relation(sourceClass = Person.class)
+@Relation
 @Entity
 @Getter
 @Setter
@@ -116,21 +115,6 @@ public class Person implements RelationIdentity {
     }
 }
 
-```
-
-## <a name="ImportConfig"></a> Import Config Module for Component Scan
-
-Import the DrmConfig in your Spring Boot Application, so that you can use the RelationService
-
-```java
-
-@SpringBootApplication
-@Import(DrmConfig.class)
-public class App {
-    public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
-    }
-}
 ```
 
 ## <a name="RelationService"></a> Use the RelationService

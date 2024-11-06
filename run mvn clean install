@@ -1,0 +1,55 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< io.github.Mom0aut:jdr >------------------------
+[INFO] Building jdr 1.0.4
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ jdr ---
+[INFO] Deleting /home/runner/work/DynamicRelations/DynamicRelations/target
+[INFO] 
+[INFO] -----------------------< io.github.Mom0aut:jdr >------------------------
+[INFO] Building jdr 1.0.4
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.8.5:prepare-agent (default) @ jdr ---
+[INFO] argLine set to -javaagent:/home/runner/.m2/repository/org/jacoco/org.jacoco.agent/0.8.5/org.jacoco.agent-0.8.5-runtime.jar=destfile=/home/runner/work/DynamicRelations/DynamicRelations/target/jacoco.exec
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ jdr ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/runner/work/DynamicRelations/DynamicRelations/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ jdr ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 1 source file to /home/runner/work/DynamicRelations/DynamicRelations/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ jdr ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/runner/work/DynamicRelations/DynamicRelations/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ jdr ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 1 source file to /home/runner/work/DynamicRelations/DynamicRelations/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.2:test (default-test) @ jdr ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.8.5:report (default-report) @ jdr ---
+[INFO] Loading execution data file /home/runner/work/DynamicRelations/DynamicRelations/target/jacoco.exec
+[INFO] Analyzed bundle 'jdr' with 0 classes
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ jdr ---
+[INFO] Installing /home/runner/work/DynamicRelations/DynamicRelations/pom.xml to /home/runner/.m2/repository/io/github/Mom0aut/jdr/1.0.4/jdr-1.0.4.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.091 s
+[INFO] Finished at: 2023-04-11T10:00:00Z
+[INFO] ------------------------------------------------------------------------
