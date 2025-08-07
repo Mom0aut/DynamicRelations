@@ -39,7 +39,6 @@ class ReleationProcessorTest {
         releationProcessorUnderTest.init(processingEnvironment);
     }
 
-
     @Test
     void getSupportedAnnotationTypes() {
         Mockito.when(processingEnvironment.getMessager()).thenReturn(messager);
