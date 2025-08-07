@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.0</version>
+        <version>3.5.4</version>
         <relativePath/>
     </parent>
     <!-- lookup parent from repository -->
@@ -134,27 +134,31 @@
     </profiles>
 
     <properties>
+        <java.version>21</java.version>
         <revision>1.0.4</revision>
         <flatten-maven-plugin.version>1.2.7</flatten-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+        <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
         <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
         <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
-        <lombok.version>1.18.24</lombok.version>
-        <postgresql.version>42.3.9</postgresql.version>
-        <auto-service.version>1.0.1</auto-service.version>
-        <compile-testing.version>0.19</compile-testing.version>
+        <lombok.version>1.18.38</lombok.version>
+        <postgresql.version>42.7.7</postgresql.version>
+        <auto-service.version>1.1.1</auto-service.version>
+        <compile-testing.version>0.21.0</compile-testing.version>
+        <!--        <javapoet.version>0.7.0</javapoet.version>-->
         <javapoet.version>1.13.0</javapoet.version>
-        <spring-boot-starter-data-jpa.version>3.1.0</spring-boot-starter-data-jpa.version>
+        <spring-boot-starter-data-jpa.version>3.5.4</spring-boot-starter-data-jpa.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <embedded-database-spring-test.version>2.2.0</embedded-database-spring-test.version>
-        <embedded-postgres.version>2.0.2</embedded-postgres.version>
-        <spring-boot-starter-web.version>2.7.3</spring-boot-starter-web.version>
-        <spring-context.version>6.0.0</spring-context.version>
-        <flyway-core.version>9.10.0</flyway-core.version>
+        <embedded-database-spring-test.version>2.6.0</embedded-database-spring-test.version>
+        <embedded-postgres.version>2.1.0</embedded-postgres.version>
+        <embedded-postgres-runtime.version>17.5.0</embedded-postgres-runtime.version>
+        <spring-boot-starter-web.version>3.5.4</spring-boot-starter-web.version>
+        <spring-context.version>6.2.9</spring-context.version>
+        <flyway-core.version>11.10.5</flyway-core.version>
     </properties>
 
     <dependencies>
@@ -226,6 +230,13 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
+                <groupId>io.zonky.test.postgres</groupId>
+                <artifactId>embedded-postgres-binaries-bom</artifactId>
+                <version>${embedded-postgres-runtime.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring-boot-starter-web.version}</version>
@@ -240,28 +251,37 @@
                 <artifactId>flyway-core</artifactId>
                 <version>${flyway-core.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-database-postgresql</artifactId>
+                <version>${flyway-core.version}</version>
+                <scope>runtime</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
         <plugins>
-            <!--            <plugin>-->
-            <!--                <groupId>org.springframework.boot</groupId>-->
-            <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-            <!--                <configuration>-->
-            <!--                    <excludes>-->
-            <!--                        <exclude>-->
-            <!--                            <groupId>org.projectlombok</groupId>-->
-            <!--                            <artifactId>lombok</artifactId>-->
-            <!--                        </exclude>-->
-            <!--                    </excludes>-->
-            <!--                </configuration>-->
-            <!--            </plugin>-->
+            <!--                        <plugin>-->
+            <!--                            <groupId>org.springframework.boot</groupId>-->
+            <!--                            <artifactId>spring-boot-maven-plugin</artifactId>-->
+            <!--                            <configuration>-->
+            <!--                                <excludes>-->
+            <!--                                    <exclude>-->
+            <!--                                        <groupId>org.projectlombok</groupId>-->
+            <!--                                        <artifactId>lombok</artifactId>-->
+            <!--                                    </exclude>-->
+            <!--                                </excludes>-->
+            <!--                            </configuration>-->
+            <!--                        </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <showWarnings>true</showWarnings>
+                    <source>1.21</source>
+                    <target>1.21</target>
                 </configuration>
             </plugin>
             <plugin>
