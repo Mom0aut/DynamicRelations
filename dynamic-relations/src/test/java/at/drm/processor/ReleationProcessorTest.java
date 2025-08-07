@@ -52,7 +52,7 @@ class ReleationProcessorTest {
         Mockito.when(processingEnvironment.getMessager()).thenReturn(messager);
         releationProcessorUnderTest.init(processingEnvironment);
         SourceVersion supportedSourceVersion = releationProcessorUnderTest.getSupportedSourceVersion();
-        assertThat(supportedSourceVersion).isEqualTo(SourceVersion.RELEASE_17);
+        assertThat(supportedSourceVersion).isEqualTo(SourceVersion.RELEASE_21);
     }
 
     @Test
