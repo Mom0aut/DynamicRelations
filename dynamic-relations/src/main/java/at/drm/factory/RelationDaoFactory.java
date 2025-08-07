@@ -13,13 +13,10 @@ import java.util.Map;
 import java.util.Set;
 
 @Component
+@RequiredArgsConstructor
 public class RelationDaoFactory {
 
     private final ApplicationContext applicationContext;
-
-    public RelationDaoFactory(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
 
     public RelationDao getDaoFromSourceObjectClass(Class dynamicRelactionClass) {
         Map<String, RelationDao> beansOfType = applicationContext.getBeansOfType(RelationDao.class);
