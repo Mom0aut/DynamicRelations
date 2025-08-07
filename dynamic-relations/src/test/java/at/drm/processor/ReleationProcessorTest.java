@@ -53,16 +53,61 @@ class ReleationProcessorTest {
 
     @Test
     void process() {
-        ReleationProcessor releationProcessor = new ReleationProcessor();
-        Compilation compilation = javac()
-                .withProcessors(releationProcessor)
-                .compile(JavaFileObjects.forResource("TestFile.java"));
-        //TODO cant compile because of lombok missing overrides annoation
-        CompilationSubject.assertThat(compilation)
-                .hadErrorContaining("is not abstract and does not override abstract method");
-//        CompilationSubject.assertThat(compilation).succeeded();
-//        ImmutableList<JavaFileObject> generatedFiles = compilation.generatedFiles();
-//        assertThat(generatedFiles).isNotEmpty();
+    ReleationProcessor releationProcessor = new ReleationProcessor();
+    Compilation compilation = javac()
+        .withProcessors(releationProcessor)
+        .compile(JavaFileObjects.forResource("TestFile.java"));
+        CompilationSubject.assertThat(compilation).succeeded();
+        com.google.common.collect.ImmutableList<javax.tools.JavaFileObject> generatedFiles = compilation.generatedFiles();
+        assertThat(generatedFiles).isNotEmpty();
+
+        // Zusätzliche Prüfung: Methoden vorhanden
+        RelationClassMethods methods = generatedFiles.stream()
+            .filter(file -> file.getName().endsWith("Relation.java"))
+            .map(this::extractMethodsFromFile)
+            .findFirst()
+            .orElseThrow(() -> new IllegalStateException("Keine generierte Relation-Klasse gefunden!"));
+
+        assertThat(methods.hasGetterId).isTrue();
+        assertThat(methods.hasSetterId).isTrue();
+        assertThat(methods.hasGetterSourceObject).isTrue();
+        assertThat(methods.hasSetterSourceObject).isTrue();
+        assertThat(methods.hasGetterTargetId).isTrue();
+        assertThat(methods.hasSetterTargetId).isTrue();
+        assertThat(methods.hasGetterTargetType).isTrue();
+        assertThat(methods.hasSetterTargetType).isTrue();
+        assertThat(methods.hasConstructor).isTrue();
     }
 
-}
+    private RelationClassMethods extractMethodsFromFile(javax.tools.JavaFileObject file) {
+        RelationClassMethods result = new RelationClassMethods();
+        try (java.io.InputStream is = file.openInputStream();
+             java.util.Scanner scanner = new java.util.Scanner(is).useDelimiter("\\A")) {
+            String content = scanner.hasNext() ? scanner.next() : "";
+            result.hasGetterId = content.contains("public Long getId()");
+            result.hasSetterId = content.contains("public void setId(Long id)");
+            result.hasGetterSourceObject = content.contains("public ") && content.contains(" getSourceObject()");
+            result.hasSetterSourceObject = content.contains("public void setSourceObject");
+            result.hasGetterTargetId = content.contains("public Long getTargetId()");
+            result.hasSetterTargetId = content.contains("public void setTargetId(Long targetId)");
+            result.hasGetterTargetType = content.contains("public String getTargetType()");
+            result.hasSetterTargetType = content.contains("public void setTargetType(String targetType)");
+            result.hasConstructor = content.contains("public ") && content.contains("() {");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    private static class RelationClassMethods {
+        boolean hasGetterId = false;
+        boolean hasSetterId = false;
+        boolean hasGetterSourceObject = false;
+        boolean hasSetterSourceObject = false;
+        boolean hasGetterTargetId = false;
+        boolean hasSetterTargetId = false;
+        boolean hasGetterTargetType = false;
+        boolean hasSetterTargetType = false;
+        boolean hasConstructor = false;
+    }
+    }

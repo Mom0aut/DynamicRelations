@@ -1,5 +1,5 @@
 import at.drm.annotation.Relation;
-import lombok.Data;
+// Lombok entfernt, Methoden werden manuell implementiert
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,12 +8,18 @@ import jakarta.persistence.Id;
 
 @Relation(sourceClass = TestFile.class)
 @Entity
-@Data
 public class TestFile {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public TestFile() {}
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

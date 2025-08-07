@@ -16,10 +16,13 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@RequiredArgsConstructor
 public class RelationService {
 
     private final RelationDaoFactory relationDaoFactory;
+
+    public RelationService(RelationDaoFactory relationDaoFactory) {
+        this.relationDaoFactory = relationDaoFactory;
+    }
 
     public RelationLink createRelation(@NonNull Object sourceObject, @NonNull RelationIdentity targetObect) {
         Long targetId = targetObect.getId();
