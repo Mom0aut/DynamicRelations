@@ -65,6 +65,7 @@ graph TD;
 # How to use
 
 - [Add the @Relation to your Entity](#Relation)
+- [Ignore the @Relation with @IgnoreRelation](#IgnoreRelation)
 - [Implement RelationIdentity](#RelationIdentity)
 - [Import Config Module for Component Scan](#ImportConfig)
 - [Use the RelationService](#RelationService)
@@ -91,7 +92,30 @@ public class Person implements RelationIdentity {
         return "PersonType";
     }
 }
+```
 
+## <a name="IgnoreRelation"></a> Ignore the @Relation with @IgnoreRelation
+
+In some cases, you may want to annotate a class with @Relation for documentation or future use,
+but **prevent the annotation processor from generating dynamic relation code** for that class.
+You can do this by simply adding the @IgnoreRelation annotation.
+
+This is useful for:
+
+- Testing or temporary entities 
+- Classes that share code structure but should not generate dynamic relations 
+- Preventing unwanted relation classes in edge cases
+
+```java
+@IgnoreRelation
+@Relation(sourceClass = DisabledRelationEntity.class)
+@Entity
+public class DisabledRelationEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+}
 ```
 
 ## <a name="RelationIdentity"></a> Implement RelationIdentity

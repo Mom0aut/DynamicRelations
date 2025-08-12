@@ -1,5 +1,6 @@
 package at.drm.processor;
 
+import at.drm.annotation.IgnoreRelation;
 import at.drm.annotation.Relation;
 import at.drm.dao.RelationDao;
 import at.drm.model.RelationLink;
@@ -42,7 +43,7 @@ import javax.lang.model.type.TypeMirror;
 import javax.tools.Diagnostic;
 
 @AutoService(Processor.class)
-public class ReleationProcessor extends AbstractProcessor {
+public class RelationProcessor extends AbstractProcessor {
 
     private Filer filer;
 
@@ -77,6 +78,12 @@ public class ReleationProcessor extends AbstractProcessor {
         if (!roundEnv.processingOver()) {
             processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "process");
             for (Element relationElement : roundEnv.getElementsAnnotatedWith(Relation.class)) {
+                if (relationElement.getAnnotation(IgnoreRelation.class) != null) {
+                    processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE,
+                            "Skipping @Relation at " + relationElement);
+                    continue;
+                }
+
                 processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "found @Relation at " + relationElement);
                 RelationMetaData entityMetaData = createEntityMetaData(relationElement);
                 createDynamicRelationEntity(entityMetaData);

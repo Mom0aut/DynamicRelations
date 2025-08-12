@@ -23,7 +23,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class ReleationProcessorTest {
+class RelationProcessorTest {
 
     @Mock
     private ProcessingEnvironment processingEnvironment;
@@ -31,33 +31,33 @@ class ReleationProcessorTest {
     @Mock
     private Messager messager;
 
-    ReleationProcessor releationProcessorUnderTest = new ReleationProcessor();
+    RelationProcessor relationProcessorUnderTest = new RelationProcessor();
 
     @Test
     void init() {
         Mockito.when(processingEnvironment.getMessager()).thenReturn(messager);
-        releationProcessorUnderTest.init(processingEnvironment);
+        relationProcessorUnderTest.init(processingEnvironment);
     }
 
     @Test
     void getSupportedAnnotationTypes() {
         Mockito.when(processingEnvironment.getMessager()).thenReturn(messager);
-        releationProcessorUnderTest.init(processingEnvironment);
-        Set<String> supportedAnnotationTypes = releationProcessorUnderTest.getSupportedAnnotationTypes();
+        relationProcessorUnderTest.init(processingEnvironment);
+        Set<String> supportedAnnotationTypes = relationProcessorUnderTest.getSupportedAnnotationTypes();
         assertThat(supportedAnnotationTypes).contains(Relation.class.getCanonicalName());
     }
 
     @Test
     void getSupportedSourceVersion() {
         Mockito.when(processingEnvironment.getMessager()).thenReturn(messager);
-        releationProcessorUnderTest.init(processingEnvironment);
-        SourceVersion supportedSourceVersion = releationProcessorUnderTest.getSupportedSourceVersion();
+        relationProcessorUnderTest.init(processingEnvironment);
+        SourceVersion supportedSourceVersion = relationProcessorUnderTest.getSupportedSourceVersion();
         assertThat(supportedSourceVersion).isEqualTo(SourceVersion.RELEASE_21);
     }
 
     @Test
     void process() {
-        ReleationProcessor releationProcessor = new ReleationProcessor();
+        RelationProcessor releationProcessor = new RelationProcessor();
         Compilation compilation = javac()
             .withProcessors(releationProcessor)
             .compile(JavaFileObjects.forResource("TestFile.java"));
@@ -80,6 +80,22 @@ class ReleationProcessorTest {
         assertThat(methods.hasGetterTargetType).isTrue();
         assertThat(methods.hasSetterTargetType).isTrue();
         assertThat(methods.hasConstructor).isTrue();
+    }
+
+    @Test
+    void processWithIgnoreRelation() {
+        RelationProcessor relationProcessor = new RelationProcessor();
+        Compilation compilation = javac()
+                .withProcessors(relationProcessor)
+                .compile(JavaFileObjects.forResource("TestFileWithIgnoreRelation.java"));
+        ImmutableList<JavaFileObject> generatedFiles = compilation.generatedFiles();
+
+        RelationClassMethods methods = generatedFiles.stream()
+                .filter(file -> file.getName().endsWith("Relation.java"))
+                .map(this::extractMethodsFromFile)
+                .findFirst().orElse(null);
+
+        assertThat(methods).isNull();
     }
 
     @SneakyThrows
