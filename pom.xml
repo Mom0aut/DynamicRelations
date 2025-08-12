@@ -15,7 +15,7 @@
     <version>${revision}</version>
     <packaging>pom</packaging>
     <name>Dynamic Relations</name>
-    <description>Dynamic Entity Relations for Java Spring Projects</description>
+    <description>Dynamic Entity Relations for Spring Projects</description>
     <url>https://github.com/Mom0aut/DynamicRelations</url>
 
     <licenses>
@@ -48,7 +48,7 @@
             <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-    
+
     <profiles>
         <profile>
             <id>development</id>
