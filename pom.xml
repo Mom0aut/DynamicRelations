@@ -10,7 +10,7 @@
     </parent>
     <!-- lookup parent from repository -->
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.github.Mom0aut</groupId>
+    <groupId>io.github.mom0aut</groupId>
     <artifactId>jdr</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
@@ -207,12 +207,12 @@
                 <version>${spring-boot-starter-data-jpa.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.Mom0aut</groupId>
+                <groupId>io.github.mom0aut</groupId>
                 <artifactId>dynamic-relations</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.Mom0aut</groupId>
+                <groupId>io.github.mom0aut</groupId>
                 <artifactId>testing</artifactId>
                 <version>${revision}</version>
             </dependency>
