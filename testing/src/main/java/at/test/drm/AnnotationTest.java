@@ -9,7 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-@Relation(sourceClass = AnnotationTest.class)
+@Relation
 @Entity
 @Data
 public class AnnotationTest implements RelationIdentity {

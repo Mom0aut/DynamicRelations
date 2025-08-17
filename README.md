@@ -77,7 +77,7 @@ relations are only working with classed which are **annotated with @Entity**!
 
 ```java
 
-@Relation(sourceClass = Person.class)
+@Relation
 @Entity
 @Getter
 @Setter
@@ -108,7 +108,7 @@ This is useful for:
 
 ```java
 @IgnoreRelation
-@Relation(sourceClass = DisabledRelationEntity.class)
+@Relation
 @Entity
 public class DisabledRelationEntity {
 
@@ -124,7 +124,7 @@ Implement the relationIdentity, each dynamic relation need a Long id and a Strin
 
 ```java
 
-@Relation(sourceClass = Person.class)
+@Relation
 @Entity
 @Getter
 @Setter
@@ -142,14 +142,15 @@ public class Person implements RelationIdentity {
 
 ```
 
-## <a name="ImportConfig"></a> Import Config Module for Component Scan
+## <a name="ImportConfig"></a> Import Configuration Module for Component Scanning and Relation Support
 
-Import the DrmConfig in your Spring Boot Application, so that you can use the RelationService
+Enable the `DrmConfig` configuration in your Spring Boot application by using the custom `@EnableDynamicRelation` annotation.   
+This activates component scanning for the `at.drm.*` packages and makes the `RelationService` and related beans available for use.
 
 ```java
 
+@EnableDynamicRelation
 @SpringBootApplication
-@Import(DrmConfig.class)
 public class App {
 
     public static void main(String[] args) {

@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-@Relation(sourceClass = TestFile.class)
+@Relation
 @Entity
 public class TestFile {
     @Id
