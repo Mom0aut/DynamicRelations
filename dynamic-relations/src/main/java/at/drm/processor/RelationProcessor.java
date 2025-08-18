@@ -97,7 +97,7 @@ public class RelationProcessor extends AbstractProcessor {
         Relation relationAnnotation = relationElement.getAnnotation(Relation.class);
         String elementPackage = processingEnv.getElementUtils()
             .getPackageOf(relationElement).getQualifiedName().toString();
-        TypeName sourceObjectName = getSourceObjectTypeName(relationAnnotation);
+        TypeName sourceObjectName = ClassName.get(relationElement.asType());
         String sourceObjectWithoutPackages = sourceObjectName.toString().replace(elementPackage + ".", "");
         String generatedEntityName = sourceObjectWithoutPackages + "Relation";
         return new RelationMetaData(sourceObjectName, elementPackage, generatedEntityName, relationAnnotation);
@@ -203,12 +203,6 @@ public class RelationProcessor extends AbstractProcessor {
             .build();
     }
 
-    private TypeName getSourceObjectTypeName(Relation annotation) {
-        TypeMirror typeMirror = getSourceClass(annotation);
-        assert typeMirror != null;
-        return ClassName.get(typeMirror);
-    }
-
     private FieldSpec createSourceObjectField(TypeName typeName) {
         return FieldSpec.builder(typeName, "sourceObject", Modifier.PRIVATE)
             .addAnnotation(ManyToOne.class)
@@ -254,17 +248,5 @@ public class RelationProcessor extends AbstractProcessor {
                 .printMessage(Diagnostic.Kind.ERROR, "ERROR ON write file: " +
                     e.getMessage());
         }
-    }
-
-
-    //TODO refactor with the more right way see:
-    // https://stackoverflow.com/questions/7687829/java-6-annotation-processing-getting-a-class-from-an-annotation
-    private TypeMirror getSourceClass(Relation annotation) {
-        try {
-            annotation.sourceClass(); // this should throw
-        } catch (MirroredTypeException mte) {
-            return mte.getTypeMirror();
-        }
-        return null; // can this ever happen ??
     }
 }

@@ -8,7 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @IgnoreRelation
-@Relation(sourceClass = TestFileWithIgnoreRelation.class)
+@Relation
 @Entity
 public class TestFileWithIgnoreRelation {
     @Id

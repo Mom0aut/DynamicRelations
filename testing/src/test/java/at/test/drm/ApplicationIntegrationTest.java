@@ -1,6 +1,6 @@
 package at.test.drm;
 
-import at.drm.DrmConfig;
+import at.drm.EnableDynamicRelation;
 import at.drm.model.RelationLink;
 import at.drm.service.RelationService;
 import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
@@ -9,7 +9,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.Set;
 
 @SpringBootTest
 @ActiveProfiles("integration")
-@Import(DrmConfig.class)
+@EnableDynamicRelation
 @AutoConfigureEmbeddedDatabase(provider = DatabaseProvider.ZONKY)
 class ApplicationIntegrationTest {
     
