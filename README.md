@@ -65,10 +65,10 @@ graph TD;
 # How to use
 
 - [Add the @Relation to your Entity](#Relation)
-- [Ignore the @Relation with @IgnoreRelation](#IgnoreRelation)
 - [Implement RelationIdentity](#RelationIdentity)
 - [Import Config Module for Component Scan](#ImportConfig)
 - [Use the RelationService](#RelationService)
+- [Ignore the @Relation with @IgnoreRelation](#IgnoreRelation)
 
 ## <a name="Relation"></a> Add the @Relation
 
@@ -143,7 +143,7 @@ public class Person implements RelationIdentity {
 
 ```
 
-## <a name="ImportConfig"></a> Import Configuration Module for Component Scanning and Relation Support
+## <a name="ImportConfig"></a> Import Configuration for Relation Support
 
 Enable the `DrmConfig` configuration in your Spring Boot application by using the custom `@EnableDynamicRelation`
 annotation.   
