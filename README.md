@@ -58,7 +58,7 @@ graph TD;
 <dependency>
   <groupId>io.github.mom0aut</groupId>
   <artifactId>dynamic-relations</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
 </dependency>
 ```
 
@@ -102,11 +102,12 @@ You can do this by simply adding the @IgnoreRelation annotation.
 
 This is useful for:
 
-- Testing or temporary entities 
-- Classes that share code structure but should not generate dynamic relations 
+- Testing or temporary entities
+- Classes that share code structure but should not generate dynamic relations
 - Preventing unwanted relation classes in edge cases
 
 ```java
+
 @IgnoreRelation
 @Relation
 @Entity
@@ -144,8 +145,10 @@ public class Person implements RelationIdentity {
 
 ## <a name="ImportConfig"></a> Import Configuration Module for Component Scanning and Relation Support
 
-Enable the `DrmConfig` configuration in your Spring Boot application by using the custom `@EnableDynamicRelation` annotation.   
-This activates component scanning for the `at.drm.*` packages and makes the `RelationService` and related beans available for use.
+Enable the `DrmConfig` configuration in your Spring Boot application by using the custom `@EnableDynamicRelation`
+annotation.   
+This activates component scanning for the `at.drm.*` packages and makes the `RelationService` and related beans
+available for use.
 
 ```java
 
