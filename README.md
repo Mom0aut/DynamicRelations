@@ -86,11 +86,6 @@ public class Person implements RelationIdentity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Override
-    public String getType() {
-        return "PersonType";
-    }
 }
 ```
 
@@ -121,7 +116,7 @@ public class DisabledRelationEntity {
 
 ## <a name="RelationIdentity"></a> Implement RelationIdentity
 
-Implement the relationIdentity, each dynamic relation need a Long id and a String Type which you can define.
+Implement the relationIdentity, each dynamic relation need a Long id which you can define.
 
 ```java
 
@@ -134,11 +129,6 @@ public class Person implements RelationIdentity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Override
-    public String getType() {
-        return "PersonType";
-    }
 }
 
 ```

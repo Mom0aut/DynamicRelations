@@ -17,9 +17,4 @@ public class AnnotationTest2 implements RelationIdentity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Override
-    public String getType() {
-        return "AnnotationType2";
-    }
 }
