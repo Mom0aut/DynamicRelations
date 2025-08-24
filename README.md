@@ -58,7 +58,7 @@ graph TD;
 <dependency>
   <groupId>io.github.mom0aut</groupId>
   <artifactId>dynamic-relations</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
 </dependency>
 ```
 
