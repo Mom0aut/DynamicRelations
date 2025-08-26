@@ -9,6 +9,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,19 +42,18 @@ public class DynamicRelationsPrintService {
 
     private void printTree(TreeNodeRelationIdentity root) {
         Deque<TreeNodeRelationIdentity> stack = new ArrayDeque<>();
-        int level = 0;
         stack.push(root);
         StringBuilder result = new StringBuilder("\n");
+        var levelByNode = new HashMap<TreeNodeRelationIdentity, Integer>();
+        levelByNode.put(root, 0);
+        int level;
         while (!stack.isEmpty()) {
             var parentObject = stack.pop();
-            result.append(" ".repeat(level)).append(parentObject.getType()).append("\n");
+            level = levelByNode.get(parentObject);
+            result.append(" ".repeat(level)).append(parentObject.object().getType()).append("\n");
             for (var child : parentObject.childObjects()) {
                 stack.push(child);
-            }
-            if (parentObject.childObjects().isEmpty()) {
-                level--;
-            } else {
-                level++;
+                levelByNode.put(child, level + 1);
             }
         }
         log.info(result.toString());
@@ -66,7 +66,7 @@ public class DynamicRelationsPrintService {
         while (!stack.isEmpty()) {
             var parentObject = stack.poll();
             Collection<RelationLink> relations = tryGetSourceObjectRelations(parentObject);
-            TreeNodeRelationIdentity childObject = null;
+            TreeNodeRelationIdentity childObject;
             for (RelationLink relation : relations) {
                 var entityClass = classBySimpleName.get(relation.getTargetType());
                 var childRelationIdentity = entityManager.find(entityClass, relation.getTargetId());
@@ -89,7 +89,7 @@ public class DynamicRelationsPrintService {
     }
 
 
-    private <T> Set<Class<T>> findClassesImplementingInterface(String... basePackages) {
+    private <T> Set<Class<T>> findClassesImplementingInterface() {
         Set<Class<T>> classes = new HashSet<>();
 
         ClassPathScanningCandidateComponentProvider scanner =
@@ -120,19 +120,8 @@ public class DynamicRelationsPrintService {
     }
 
     private record Relation(RelationIdentity source, RelationIdentity target) {
-
     }
 
-    private record TreeNodeRelationIdentity(RelationIdentity object, List<TreeNodeRelationIdentity> childObjects) implements RelationIdentity {
-
-        @Override
-        public Long getId() {
-            return object.getId();
-        }
-
-        @Override
-        public String getType() {
-            return object.getType();
-        }
+    private record TreeNodeRelationIdentity(RelationIdentity object, List<TreeNodeRelationIdentity> childObjects) {
     }
 }

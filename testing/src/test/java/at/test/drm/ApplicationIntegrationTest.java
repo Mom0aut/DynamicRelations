@@ -130,7 +130,6 @@ class ApplicationIntegrationTest {
         relationService.createRelation(first, second);
         relationService.createRelation(first, third);
         relationService.createRelation(second, third);
-
         Assertions.assertThatNoException().isThrownBy(() -> dynamicRelationsPrintService.printMappedRelations(first));
     }
 }
