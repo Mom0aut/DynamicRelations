@@ -4,6 +4,8 @@ package at.test.drm;
 import java.util.List;
 import java.util.Set;
 
+import at.drm.util.DynamicRelationsUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,9 @@ import org.springframework.context.ApplicationContext;
 import at.drm.factory.RelationDaoFactory;
 import at.drm.model.RelationLink;
 import at.drm.service.RelationService;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @Disabled
@@ -32,6 +37,12 @@ class RelationTest {
 
     private final RelationService relationService;
 
+    private DynamicRelationsUtils dynamicRelationsUtils;
+
+    @BeforeEach
+    void setUp() {
+        dynamicRelationsUtils = new DynamicRelationsUtils(relationDaoFactory);
+    }
 
     public RelationTest(ApplicationContext applicationContext) {
         this.relationDaoFactory = new RelationDaoFactory(applicationContext);
@@ -62,6 +73,28 @@ class RelationTest {
         relationService.deleteRelation(test);
         System.out.println();
 
+    }
+
+    @Test
+    void testListRegisteredEntities_shouldReturnRegisteredEntities() {
+        List<Class<?>> result = dynamicRelationsUtils.listRegisteredEntities();
+        assertThat(result).hasSize(3);
+        assertThat(result).containsExactlyInAnyOrder(
+            PersonEntity.class,
+            DogEntity.class,
+            DocumentEntity.class
+        );
+    }
+
+    @Test
+    void testListRegisteredEntities_shouldReturnEmptyListWhenNoDAOsRegistered() {
+        RelationDaoFactory mockFactory = org.mockito.Mockito.mock(RelationDaoFactory.class);
+        when(mockFactory.getAllDaos()).thenReturn(Set.of());
+
+        DynamicRelationsUtils mockUtils = new DynamicRelationsUtils(mockFactory);
+        List<Class<?>> result = mockUtils.listRegisteredEntities();
+
+        assertThat(result).isEmpty();
     }
 
 }
