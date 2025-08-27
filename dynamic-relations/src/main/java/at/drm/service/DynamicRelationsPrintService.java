@@ -1,15 +1,16 @@
 package at.drm.service;
 
 import at.drm.exception.NoRelationDaoFoundException;
+import at.drm.model.Relation;
 import at.drm.model.RelationIdentity;
 import at.drm.model.RelationLink;
+import at.drm.model.TreeNodeRelationIdentity;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import java.lang.reflect.Modifier;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,29 +35,31 @@ public class DynamicRelationsPrintService {
 
     private Map<String, Class<RelationIdentity>> classBySimpleName;
 
-    public void printMappedRelations(RelationIdentity relationIdentity) {
+    public String printRelations(RelationIdentity relationIdentity) {
         TreeNodeRelationIdentity root = new TreeNodeRelationIdentity(relationIdentity, new LinkedList<>());
         createTree(root);
-        printTree(root);
+        return printTree(root);
     }
 
-    private void printTree(TreeNodeRelationIdentity root) {
-        Deque<TreeNodeRelationIdentity> stack = new ArrayDeque<>();
-        stack.push(root);
-        StringBuilder result = new StringBuilder("\n");
-        var levelByNode = new HashMap<TreeNodeRelationIdentity, Integer>();
-        levelByNode.put(root, 0);
-        int level;
+    private String printTree(TreeNodeRelationIdentity root) {
+        Deque<Map.Entry<TreeNodeRelationIdentity, Integer>> stack = new ArrayDeque<>();
+        stack.push(Map.entry(root, 0));
+
+        StringBuilder result = new StringBuilder();
         while (!stack.isEmpty()) {
-            var parentObject = stack.pop();
-            level = levelByNode.get(parentObject);
-            result.append(" ".repeat(level)).append(parentObject.object().getType()).append("\n");
-            for (var child : parentObject.childObjects()) {
-                stack.push(child);
-                levelByNode.put(child, level + 1);
+            var entry = stack.pop();
+            var node = entry.getKey();
+            int level = entry.getValue();
+
+            result.append(" ".repeat(level))
+                .append(node.object().getType())
+                .append("\n");
+
+            for (var child : node.childObjects()) {
+                stack.push(Map.entry(child, level + 1));
             }
         }
-        log.info(result.toString());
+        return result.toString();
     }
 
     private void createTree(TreeNodeRelationIdentity root) {
@@ -104,7 +107,8 @@ public class DynamicRelationsPrintService {
                     classes.add(clazz);
                 }
             } catch (ClassNotFoundException e) {
-                System.err.println("Class not found: " + candidate.getBeanClassName());
+                log.error("Class not found: {}", candidate.getBeanClassName());
+                throw new RuntimeException("Class is not found. Finding classes is ended");
             }
         }
 
@@ -115,13 +119,9 @@ public class DynamicRelationsPrintService {
         try {
             return relationService.findRelationBySourceObject(root.object());
         } catch (NoRelationDaoFoundException e) {
+            log.info("No relations found for root with id {} and type {}", root.object().getId(), root.object().getType());
             return List.of();
         }
     }
 
-    private record Relation(RelationIdentity source, RelationIdentity target) {
-    }
-
-    private record TreeNodeRelationIdentity(RelationIdentity object, List<TreeNodeRelationIdentity> childObjects) {
-    }
 }

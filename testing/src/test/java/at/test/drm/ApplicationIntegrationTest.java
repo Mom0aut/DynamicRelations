@@ -119,7 +119,7 @@ class ApplicationIntegrationTest {
     }
 
     @Test
-    void shouldPrintMappedRelations() {
+    void shouldPrintRelations() {
         var first = new AnnotationTest();
         var second = new AnnotationTest2();
         var third = new AnnotationTest3();
@@ -130,6 +130,34 @@ class ApplicationIntegrationTest {
         relationService.createRelation(first, second);
         relationService.createRelation(first, third);
         relationService.createRelation(second, third);
-        Assertions.assertThatNoException().isThrownBy(() -> dynamicRelationsPrintService.printMappedRelations(first));
+
+        Assertions.assertThat(dynamicRelationsPrintService.printRelations(first)).isEqualTo("""
+            AnnotationTestType
+             AnnotationTest3Type
+             AnnotationTest2Type
+              AnnotationTest3Type
+            """);
+    }
+    @Test
+    void shouldPrintRelationsWithCyclicRelations() {
+        var first = new AnnotationTest();
+        var second = new AnnotationTest2();
+        var third = new AnnotationTest3();
+        dao.save(first);
+        dao2.save(second);
+        dao3.save(third);
+
+        relationService.createRelation(first, second);
+        relationService.createRelation(first, third);
+        relationService.createRelation(second, third);
+        relationService.createRelation(third, second);
+
+        Assertions.assertThat(dynamicRelationsPrintService.printRelations(first)).isEqualTo("""
+          AnnotationTestType
+           AnnotationTest3Type
+            AnnotationTest2Type
+           AnnotationTest2Type
+            AnnotationTest3Type
+          """);
     }
 }
