@@ -2,24 +2,24 @@ package at.test.drm;
 
 import at.drm.EnableDynamicRelation;
 import at.drm.model.RelationLink;
+import at.drm.service.DynamicRelationsPrintService;
 import at.drm.service.RelationService;
 import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
 import io.zonky.test.db.AutoConfigureEmbeddedDatabase.DatabaseProvider;
+import java.util.List;
+import java.util.Set;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.List;
-import java.util.Set;
-
 @SpringBootTest
 @ActiveProfiles("integration")
 @EnableDynamicRelation
 @AutoConfigureEmbeddedDatabase(provider = DatabaseProvider.ZONKY)
 class ApplicationIntegrationTest {
-    
+
     @Autowired
     private AnnotaionDao dao;
     @Autowired
@@ -28,6 +28,8 @@ class ApplicationIntegrationTest {
     private Annotaion3Dao dao3;
     @Autowired
     private RelationService relationService;
+    @Autowired
+    private DynamicRelationsPrintService dynamicRelationsPrintService;
 
     @Test
     void shouldFindRelationBySourceObject() {
@@ -41,14 +43,14 @@ class ApplicationIntegrationTest {
         relationService.createRelation(first, second);
         relationService.createRelation(first, third);
         final List<RelationLink> relationBySourceObject =
-                relationService.findRelationBySourceObject(first);
+            relationService.findRelationBySourceObject(first);
 
         Assertions.assertThat(relationBySourceObject).isNotNull();
         Assertions.assertThat(relationBySourceObject.size()).isEqualTo(2);
         Assertions.assertThat(relationBySourceObject.get(0).getTargetType())
-                .isEqualTo(second.getType());
+            .isEqualTo(second.getType());
         Assertions.assertThat(relationBySourceObject.get(1).getTargetType())
-                .isEqualTo(third.getType());
+            .isEqualTo(third.getType());
     }
 
     @Test
@@ -64,14 +66,14 @@ class ApplicationIntegrationTest {
         relationService.createRelation(first, third);
         relationService.createRelation(second, third);
         final Set<RelationLink> byTarget =
-                relationService.findRelationByTargetRelationIdentity(third);
+            relationService.findRelationByTargetRelationIdentity(third);
 
         Assertions.assertThat(byTarget).isNotNull();
         Assertions.assertThat(byTarget.size()).isEqualTo(2);
         Assertions.assertThat(byTarget.stream().anyMatch(r -> r.getSourceObject().equals(first)))
-                .isTrue();
+            .isTrue();
         Assertions.assertThat(byTarget.stream().anyMatch(r -> r.getSourceObject().equals(second)))
-                .isTrue();
+            .isTrue();
     }
 
     @Test
@@ -87,7 +89,7 @@ class ApplicationIntegrationTest {
         relationService.createRelation(first, third);
         relationService.createRelation(second, third);
         final RelationLink bySourceAndIdentity =
-                relationService.findRelationBySourceObjectAndRelationIdentity(first, second);
+            relationService.findRelationBySourceObjectAndRelationIdentity(first, second);
 
         Assertions.assertThat(bySourceAndIdentity).isNotNull();
         Assertions.assertThat(bySourceAndIdentity.getSourceObject()).isEqualTo(first);
@@ -107,12 +109,55 @@ class ApplicationIntegrationTest {
         relationService.createRelation(first, third);
         relationService.createRelation(second, third);
         final RelationLink bySourceAndIdentity =
-                relationService.findRelationBySourceObjectAndRelationIdentity(first, second);
+            relationService.findRelationBySourceObjectAndRelationIdentity(first, second);
 
         relationService.deleteRelation(bySourceAndIdentity);
 
         final RelationLink afterDelete =
-                relationService.findRelationBySourceObjectAndRelationIdentity(first, second);
+            relationService.findRelationBySourceObjectAndRelationIdentity(first, second);
         Assertions.assertThat(afterDelete).isNull();
+    }
+
+    @Test
+    void shouldPrintRelations() {
+        var first = new AnnotationTest();
+        var second = new AnnotationTest2();
+        var third = new AnnotationTest3();
+        dao.save(first);
+        dao2.save(second);
+        dao3.save(third);
+
+        relationService.createRelation(first, second);
+        relationService.createRelation(first, third);
+        relationService.createRelation(second, third);
+
+        Assertions.assertThat(dynamicRelationsPrintService.printRelations(first)).isEqualTo("""
+            AnnotationTestType
+             AnnotationTest3Type
+             AnnotationTest2Type
+              AnnotationTest3Type
+            """);
+    }
+    @Test
+    void shouldPrintRelationsWithCyclicRelations() {
+        var first = new AnnotationTest();
+        var second = new AnnotationTest2();
+        var third = new AnnotationTest3();
+        dao.save(first);
+        dao2.save(second);
+        dao3.save(third);
+
+        relationService.createRelation(first, second);
+        relationService.createRelation(first, third);
+        relationService.createRelation(second, third);
+        relationService.createRelation(third, second);
+
+        Assertions.assertThat(dynamicRelationsPrintService.printRelations(first)).isEqualTo("""
+          AnnotationTestType
+           AnnotationTest3Type
+            AnnotationTest2Type
+           AnnotationTest2Type
+            AnnotationTest3Type
+          """);
     }
 }
