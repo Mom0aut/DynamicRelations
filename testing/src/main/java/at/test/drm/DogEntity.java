@@ -12,7 +12,7 @@ import jakarta.persistence.Id;
 @Relation
 @Entity
 @Data
-public class AnnotationTest3 implements RelationIdentity {
+public class DogEntity implements RelationIdentity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

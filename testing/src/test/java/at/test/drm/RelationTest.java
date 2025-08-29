@@ -1,17 +1,18 @@
 package at.test.drm;
 
 
-import at.drm.factory.RelationDaoFactory;
-import at.drm.model.RelationLink;
-import at.drm.service.RelationService;
+import java.util.List;
+import java.util.Set;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
-import java.util.List;
-import java.util.Set;
+import at.drm.factory.RelationDaoFactory;
+import at.drm.model.RelationLink;
+import at.drm.service.RelationService;
 
 @SpringBootTest
 @Disabled
@@ -19,13 +20,13 @@ import java.util.Set;
 class RelationTest {
 
     @Autowired
-    private AnnotaionDao annotaionDao;
+    private PersonEntityDao personEntityDao;
 
     @Autowired
-    private Annotaion2Dao annotaion2Dao;
+    private DogEntityDao dogEntityDao;
 
     @Autowired
-    private Annotaion3Dao annotaion3Dao;
+    private DocumentEntityDao documentEntityDao;
 
     private final RelationDaoFactory relationDaoFactory;
 
@@ -41,23 +42,23 @@ class RelationTest {
     @Test
     void testCreateRelation() {
 
-        AnnotationTest annotationTest = new AnnotationTest();
-        annotaionDao.save(annotationTest);
+        PersonEntity personEntity = new PersonEntity();
+        personEntityDao.save(personEntity);
 
-        AnnotationTest2 annotationTest2 = new AnnotationTest2();
-        annotaion2Dao.save(annotationTest2);
+        DogEntity dogEntity = new DogEntity();
+        dogEntityDao.save(dogEntity);
 
-        AnnotationTest3 annotationTest3 = new AnnotationTest3();
-        annotaion3Dao.save(annotationTest3);
+        DocumentEntity documentEntity = new DocumentEntity();
+        documentEntityDao.save(documentEntity);
 
-        RelationLink test = relationService.createRelation(annotationTest, annotationTest2);
-        RelationLink test2 = relationService.createRelation(annotationTest, annotationTest3);
-        RelationLink test3 = relationService.createRelation(annotationTest2, annotationTest3);
+        RelationLink test = relationService.createRelation(personEntity, dogEntity);
+        RelationLink test2 = relationService.createRelation(personEntity, documentEntity);
+        RelationLink test3 = relationService.createRelation(dogEntity, documentEntity);
 
-        RelationLink relationLink = relationService.findRelationBySourceObjectAndRelationIdentity(annotationTest, annotationTest2);
+        RelationLink relationLink = relationService.findRelationBySourceObjectAndRelationIdentity(personEntity, dogEntity);
 
-        List<RelationLink> relationBySourceObject = relationService.findRelationBySourceObject(annotationTest);
-        Set<RelationLink> relationByTargetRelationIdentity = relationService.findRelationByTargetRelationIdentity(annotationTest3);
+        List<RelationLink> relationBySourceObject = relationService.findRelationBySourceObject(personEntity);
+        Set<RelationLink> relationByTargetRelationIdentity = relationService.findRelationByTargetRelationIdentity(documentEntity);
         relationService.deleteRelation(test);
         System.out.println();
 

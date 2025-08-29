@@ -21,11 +21,11 @@ import org.springframework.test.context.ActiveProfiles;
 class ApplicationIntegrationTest {
 
     @Autowired
-    private AnnotaionDao dao;
+    private PersonEntityDao dao;
     @Autowired
-    private Annotaion2Dao dao2;
+    private DogEntityDao dao2;
     @Autowired
-    private Annotaion3Dao dao3;
+    private DocumentEntityDao dao3;
     @Autowired
     private RelationService relationService;
     @Autowired
@@ -33,9 +33,9 @@ class ApplicationIntegrationTest {
 
     @Test
     void shouldFindRelationBySourceObject() {
-        var first = new AnnotationTest();
-        var second = new AnnotationTest2();
-        var third = new AnnotationTest3();
+        var first = new PersonEntity();
+        var second = new DogEntity();
+        var third = new DocumentEntity();
         dao.save(first);
         dao2.save(second);
         dao3.save(third);
@@ -55,9 +55,9 @@ class ApplicationIntegrationTest {
 
     @Test
     void shouldFindRelationByTarget() {
-        var first = new AnnotationTest();
-        var second = new AnnotationTest2();
-        var third = new AnnotationTest3();
+        var first = new PersonEntity();
+        var second = new DogEntity();
+        var third = new DocumentEntity();
         dao.save(first);
         dao2.save(second);
         dao3.save(third);
@@ -78,9 +78,9 @@ class ApplicationIntegrationTest {
 
     @Test
     void shouldFindRelationBySourceObjectAndIdentity() {
-        var first = new AnnotationTest();
-        var second = new AnnotationTest2();
-        var third = new AnnotationTest3();
+        var first = new PersonEntity();
+        var second = new DogEntity();
+        var third = new DocumentEntity();
         dao.save(first);
         dao2.save(second);
         dao3.save(third);
@@ -99,9 +99,9 @@ class ApplicationIntegrationTest {
 
     @Test
     void shouldDeleteRelation() {
-        var first = new AnnotationTest();
-        var second = new AnnotationTest2();
-        var third = new AnnotationTest3();
+        var first = new PersonEntity();
+        var second = new DogEntity();
+        var third = new DocumentEntity();
         dao.save(first);
         dao2.save(second);
         dao3.save(third);
