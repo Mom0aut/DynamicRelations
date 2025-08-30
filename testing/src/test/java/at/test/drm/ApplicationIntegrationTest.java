@@ -133,13 +133,16 @@ class ApplicationIntegrationTest {
         relationService.createRelation(first, third);
         relationService.createRelation(second, third);
 
-        Assertions.assertThat(dynamicRelationsPrintService.printRelations(first)).isEqualTo("""
+        String actual = dynamicRelationsPrintService.printRelations(first);
+        System.out.println(actual);
+        Assertions.assertThat(actual).isEqualTo("""
             AnnotationTestType
              AnnotationTest3Type
              AnnotationTest2Type
               AnnotationTest3Type
             """);
     }
+
     @Test
     void shouldPrintRelationsWithCyclicRelations() {
         var first = new PersonEntity();
@@ -155,11 +158,11 @@ class ApplicationIntegrationTest {
         relationService.createRelation(third, second);
 
         Assertions.assertThat(dynamicRelationsPrintService.printRelations(first)).isEqualTo("""
-          AnnotationTestType
-           AnnotationTest3Type
-            AnnotationTest2Type
-           AnnotationTest2Type
-            AnnotationTest3Type
-          """);
+            AnnotationTestType
+             AnnotationTest3Type
+              AnnotationTest2Type
+             AnnotationTest2Type
+              AnnotationTest3Type
+            """);
     }
 }
