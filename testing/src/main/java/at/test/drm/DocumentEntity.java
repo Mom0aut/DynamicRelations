@@ -9,7 +9,6 @@ import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.Getter;
 
-@Getter
 @Relation
 @Entity
 @Data
