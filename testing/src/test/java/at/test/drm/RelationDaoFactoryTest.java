@@ -27,7 +27,7 @@ class RelationDaoFactoryTest {
     private ApplicationContext applicationContext;
 
     @Mock
-    private DogEntityDao dogEntityDao;
+    private DogEntityRelationDao dogEntityRelationDao;
 
     @Mock
     private RelationDao relationDao;
@@ -38,17 +38,17 @@ class RelationDaoFactoryTest {
     @Test
     void getDaoFromSourceObjectClass() {
         Mockito.when(applicationContext.getBeansOfType(any(Class.class)))
-                .thenReturn(Map.ofEntries(Map.entry("testDao", dogEntityDao)));
+                .thenReturn(Map.ofEntries(Map.entry("testDao", dogEntityRelationDao)));
         RelationDao daoFromSourceObjectClass = relationDaoFactoryUnderTest.getDaoFromSourceObjectClass(
                 DogEntity.class);
         assertThat(daoFromSourceObjectClass).isNotNull();
-        assertThat(daoFromSourceObjectClass).isInstanceOf(dogEntityDao.getClass());
+        assertThat(daoFromSourceObjectClass).isInstanceOf(dogEntityRelationDao.getClass());
     }
 
     @Test
     void getDaoFromSourceObjectClassShouldThrowNoDaoFoundException() {
         Mockito.when(applicationContext.getBeansOfType(any(Class.class)))
-                .thenReturn(Map.ofEntries(Map.entry("testDao", dogEntityDao)));
+                .thenReturn(Map.ofEntries(Map.entry("testDao", dogEntityRelationDao)));
         NoRelationDaoFoundException exception = Assertions.assertThrows(NoRelationDaoFoundException.class, () -> {
             relationDaoFactoryUnderTest.getDaoFromSourceObjectClass(
                     PersonEntity.class);
