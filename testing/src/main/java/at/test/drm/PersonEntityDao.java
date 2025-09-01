@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DocumentDao extends CrudRepository<DocumentEntity, Long> {
+public interface PersonEntityDao extends CrudRepository<PersonEntity, Long> {
 
 }

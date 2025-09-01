@@ -6,6 +6,7 @@ We encourage and appreciate feedback and contribution from the community!
 - [Issue and Feature Requests](#issue)
 - [PR Submission Guidelines](#submit-pr)
 - [Coding Rules](#rules)
+- [Set Up](#setup)
 
 ## <a name="question"></a> Question or Problem?
 
@@ -31,5 +32,14 @@ Please follow the rules as you work on the code:
 - Please use clean and informative names.
 - Leave the code better than you find it.
 - Use the given Style Guide [Style Guide](https://github.com/Mom0aut/DynamicRelations/blob/master/StyleGuide.xml)
+
+##  <a name="setup"></a> Set Up
+When starting out, make sure to check these few things before building the project:
+
+- Ensure that Annotation Processor is enabled in your IDE.
+- Ensure that the processor FQ name is added and set to:
+  ```at.drm.processor.RelationProcessor```.
+- For IntelliJ, ensure you use the inbuilt Build tool found at the 'Build' tab. Running ```mvn clean install``` 
+in the CLI will NOT have Annotation Processors activated which is required for this project.
 
 Happy contributing :smiley:
