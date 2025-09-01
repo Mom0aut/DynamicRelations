@@ -136,10 +136,10 @@ class ApplicationIntegrationTest {
         String actual = dynamicRelationsPrintService.printRelations(first);
         System.out.println(actual);
         Assertions.assertThat(actual).isEqualTo("""
-            AnnotationTestType
-             AnnotationTest3Type
-             AnnotationTest2Type
-              AnnotationTest3Type
+            PersonEntityType
+             DocumentEntityType
+             DogEntityType
+              DocumentEntityType
             """);
     }
 
@@ -158,11 +158,11 @@ class ApplicationIntegrationTest {
         relationService.createRelation(third, second);
 
         Assertions.assertThat(dynamicRelationsPrintService.printRelations(first)).isEqualTo("""
-            AnnotationTestType
-             AnnotationTest3Type
-              AnnotationTest2Type
-             AnnotationTest2Type
-              AnnotationTest3Type
+            PersonEntityType
+             DocumentEntityType
+              DogEntityType
+             DogEntityType
+              DocumentEntityType
             """);
     }
 }
