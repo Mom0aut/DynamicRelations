@@ -23,7 +23,7 @@ public class RelationServiceTest {
     private RelationDaoFactory relationDaoFactory;
 
     @Mock
-    private AnnotationTestRelationDao annotationTestRelationDao;
+    private PersonEntityRelationDao personEntityRelationDao;
 
     @InjectMocks
     private RelationService relationService;
@@ -31,7 +31,7 @@ public class RelationServiceTest {
     @Test
     void createRelation() {
         Mockito.when(relationDaoFactory.getDaoFromSourceObjectClass(any(Class.class)))
-                .thenReturn(annotationTestRelationDao);
+                .thenReturn(personEntityRelationDao);
         PersonEntity PersonEntity = new PersonEntity();
         PersonEntity.setId(1L);
         DogEntity DogEntity = new DogEntity();
@@ -42,16 +42,16 @@ public class RelationServiceTest {
     @Test
     void deleteRelation() {
         Mockito.when(relationDaoFactory.getDaoFromSourceObjectClass(any(Class.class)))
-                .thenReturn(annotationTestRelationDao);
-        AnnotationTestRelation annotationTestRelation = new AnnotationTestRelation();
-        annotationTestRelation.setSourceObject(new PersonEntity());
-        relationService.deleteRelation(annotationTestRelation);
+                .thenReturn(personEntityRelationDao);
+        PersonEntityRelation personEntityRelation = new PersonEntityRelation();
+        personEntityRelation.setSourceObject(new PersonEntity());
+        relationService.deleteRelation(personEntityRelation);
     }
 
     @Test
     void findRelationBySourceObject() {
         Mockito.when(relationDaoFactory.getDaoFromSourceObjectClass(any(Class.class)))
-                .thenReturn(annotationTestRelationDao);
+                .thenReturn(personEntityRelationDao);
         PersonEntity PersonEntity = new PersonEntity();
         PersonEntity.setId(1L);
         List<RelationLink> relationBySourceObject = relationService.findRelationBySourceObject(PersonEntity);
@@ -60,7 +60,7 @@ public class RelationServiceTest {
     @Test
     void findRelationByTargetRelationIdentity() {
         Mockito.when(relationDaoFactory.getAllDaos())
-                .thenReturn(Collections.singleton(annotationTestRelationDao));
+                .thenReturn(Collections.singleton(personEntityRelationDao));
         PersonEntity PersonEntity = new PersonEntity();
         PersonEntity.setId(1L);
         Set<RelationLink> relationByTargetRelationIdentity = relationService.findRelationByTargetRelationIdentity(PersonEntity);
