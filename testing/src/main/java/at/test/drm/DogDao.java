@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AnnotaionDao extends CrudRepository<AnnotationTest, Long> {
+public interface DogDao extends CrudRepository<DogEntity, Long> {
 
 }

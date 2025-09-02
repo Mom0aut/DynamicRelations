@@ -1,18 +1,20 @@
 package at.test.drm;
 
+import java.util.List;
+import java.util.Set;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+
 import at.drm.EnableDynamicRelation;
 import at.drm.model.RelationLink;
 import at.drm.service.DynamicRelationsPrintService;
 import at.drm.service.RelationService;
 import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
 import io.zonky.test.db.AutoConfigureEmbeddedDatabase.DatabaseProvider;
-import java.util.List;
-import java.util.Set;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("integration")
@@ -21,11 +23,11 @@ import org.springframework.test.context.ActiveProfiles;
 class ApplicationIntegrationTest {
 
     @Autowired
-    private AnnotaionDao dao;
+    private PersonDao dao;
     @Autowired
-    private Annotaion2Dao dao2;
+    private DogDao dao2;
     @Autowired
-    private Annotaion3Dao dao3;
+    private DocumentDao dao3;
     @Autowired
     private RelationService relationService;
     @Autowired
@@ -33,9 +35,9 @@ class ApplicationIntegrationTest {
 
     @Test
     void shouldFindRelationBySourceObject() {
-        var first = new AnnotationTest();
-        var second = new AnnotationTest2();
-        var third = new AnnotationTest3();
+        var first = new PersonEntity();
+        var second = new DogEntity();
+        var third = new DocumentEntity();
         dao.save(first);
         dao2.save(second);
         dao3.save(third);
@@ -55,9 +57,9 @@ class ApplicationIntegrationTest {
 
     @Test
     void shouldFindRelationByTarget() {
-        var first = new AnnotationTest();
-        var second = new AnnotationTest2();
-        var third = new AnnotationTest3();
+        var first = new PersonEntity();
+        var second = new DogEntity();
+        var third = new DocumentEntity();
         dao.save(first);
         dao2.save(second);
         dao3.save(third);
@@ -78,9 +80,9 @@ class ApplicationIntegrationTest {
 
     @Test
     void shouldFindRelationBySourceObjectAndIdentity() {
-        var first = new AnnotationTest();
-        var second = new AnnotationTest2();
-        var third = new AnnotationTest3();
+        var first = new PersonEntity();
+        var second = new DogEntity();
+        var third = new DocumentEntity();
         dao.save(first);
         dao2.save(second);
         dao3.save(third);
@@ -99,9 +101,9 @@ class ApplicationIntegrationTest {
 
     @Test
     void shouldDeleteRelation() {
-        var first = new AnnotationTest();
-        var second = new AnnotationTest2();
-        var third = new AnnotationTest3();
+        var first = new PersonEntity();
+        var second = new DogEntity();
+        var third = new DocumentEntity();
         dao.save(first);
         dao2.save(second);
         dao3.save(third);
@@ -120,9 +122,9 @@ class ApplicationIntegrationTest {
 
     @Test
     void shouldPrintRelations() {
-        var first = new AnnotationTest();
-        var second = new AnnotationTest2();
-        var third = new AnnotationTest3();
+        var first = new PersonEntity();
+        var second = new DogEntity();
+        var third = new DocumentEntity();
         dao.save(first);
         dao2.save(second);
         dao3.save(third);
@@ -134,18 +136,18 @@ class ApplicationIntegrationTest {
         String actual = dynamicRelationsPrintService.printRelations(first);
         System.out.println(actual);
         Assertions.assertThat(actual).isEqualTo("""
-            AnnotationTestType
-             AnnotationTest3Type
-             AnnotationTest2Type
-              AnnotationTest3Type
+            PersonEntityType
+             DocumentEntityType
+             DogEntityType
+              DocumentEntityType
             """);
     }
 
     @Test
     void shouldPrintRelationsWithCyclicRelations() {
-        var first = new AnnotationTest();
-        var second = new AnnotationTest2();
-        var third = new AnnotationTest3();
+        var first = new PersonEntity();
+        var second = new DogEntity();
+        var third = new DocumentEntity();
         dao.save(first);
         dao2.save(second);
         dao3.save(third);
@@ -156,11 +158,11 @@ class ApplicationIntegrationTest {
         relationService.createRelation(third, second);
 
         Assertions.assertThat(dynamicRelationsPrintService.printRelations(first)).isEqualTo("""
-            AnnotationTestType
-             AnnotationTest3Type
-              AnnotationTest2Type
-             AnnotationTest2Type
-              AnnotationTest3Type
+            PersonEntityType
+             DocumentEntityType
+              DogEntityType
+             DogEntityType
+              DocumentEntityType
             """);
     }
 }
