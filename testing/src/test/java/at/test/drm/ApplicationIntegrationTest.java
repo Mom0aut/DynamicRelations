@@ -23,11 +23,11 @@ import io.zonky.test.db.AutoConfigureEmbeddedDatabase.DatabaseProvider;
 class ApplicationIntegrationTest {
 
     @Autowired
-    private PersonEntityDao dao;
+    private PersonDao dao;
     @Autowired
-    private DogEntityDao dao2;
+    private DogDao dao2;
     @Autowired
-    private DocumentEntityDao dao3;
+    private DocumentDao dao3;
     @Autowired
     private RelationService relationService;
     @Autowired

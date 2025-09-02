@@ -20,13 +20,13 @@ import at.drm.service.RelationService;
 class RelationTest {
 
     @Autowired
-    private PersonEntityDao personEntityDao;
+    private PersonDao personEntityDao;
 
     @Autowired
-    private DogEntityDao dogEntityDao;
+    private DogDao dogEntityDao;
 
     @Autowired
-    private DocumentEntityDao documentEntityDao;
+    private DocumentDao documentEntityDao;
 
     private final RelationDaoFactory relationDaoFactory;
 
