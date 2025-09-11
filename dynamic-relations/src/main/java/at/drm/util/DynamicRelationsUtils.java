@@ -2,6 +2,7 @@ package at.drm.util;
 
 import at.drm.dao.RelationDao;
 import at.drm.factory.RelationDaoFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.ResolvableType;
 import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
@@ -10,13 +11,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class DynamicRelationsUtils {
 
     private final RelationDaoFactory relationDaoFactory;
-
-    public DynamicRelationsUtils(RelationDaoFactory relationDaoFactory) {
-        this.relationDaoFactory = relationDaoFactory;
-    }
 
     public List<Class<?>> listRegisteredEntities() {
         Set<RelationDao> allDaos = relationDaoFactory.getAllDaos();
@@ -31,11 +29,7 @@ public class DynamicRelationsUtils {
         try {
             ResolvableType resolvableType = ResolvableType.forClass(relationDao.getClass()).as(RelationDao.class);
             ResolvableType generic = resolvableType.getGeneric(0);
-            Class<?> relationLinkClass = generic.resolve();
-
-            if (relationLinkClass == null) {
-                throw new RuntimeException("Could not resolve RelationLink class for DAO: " + relationDao.getClass());
-            }
+            Class<?> relationLinkClass = getRelationLinkClass(generic);
 
             Field sourceObjectField = relationLinkClass.getDeclaredField("sourceObject");
             return sourceObjectField.getType();
@@ -44,5 +38,15 @@ public class DynamicRelationsUtils {
                 "Could not find sourceObject field in RelationLink class for DAO: " + relationDao.getClass(), e
             );
         }
+    }
+
+    private Class<?> getRelationLinkClass(ResolvableType generic) {
+        Class<?> relationLinkClass = generic.resolve();
+
+        if (relationLinkClass == null) {
+            throw new RuntimeException("Could not resolve RelationLink class for type: " + generic.getClass());
+        }
+
+        return relationLinkClass;
     }
 }

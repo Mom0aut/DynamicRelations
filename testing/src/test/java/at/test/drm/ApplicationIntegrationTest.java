@@ -1,5 +1,11 @@
 package at.test.drm;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
+import at.drm.dao.RelationDao;
+import at.drm.factory.RelationDaoFactory;
+import at.drm.util.DynamicRelationsUtils;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +38,10 @@ class ApplicationIntegrationTest {
     private RelationService relationService;
     @Autowired
     private DynamicRelationsPrintService dynamicRelationsPrintService;
+    @Autowired
+    private DynamicRelationsUtils dynamicRelationsUtils;
+    @Autowired
+    private RelationDaoFactory relationDaoFactory;
 
     @Test
     void shouldFindRelationBySourceObject() {
@@ -164,5 +174,16 @@ class ApplicationIntegrationTest {
              DogEntityType
               DocumentEntityType
             """);
+    }
+
+    @Test
+    void testListRegisteredEntities_shouldReturnRegisteredEntities() {
+        List<Class<?>> result = dynamicRelationsUtils.listRegisteredEntities();
+        assertThat(result).hasSize(3);
+        assertThat(result).containsExactlyInAnyOrder(
+            PersonEntity.class,
+            DogEntity.class,
+            DocumentEntity.class
+        );
     }
 }
