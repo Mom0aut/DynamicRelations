@@ -52,7 +52,7 @@ class RelationProcessorTest {
         Mockito.when(processingEnvironment.getMessager()).thenReturn(messager);
         relationProcessorUnderTest.init(processingEnvironment);
         SourceVersion supportedSourceVersion = relationProcessorUnderTest.getSupportedSourceVersion();
-        assertThat(supportedSourceVersion).isEqualTo(SourceVersion.RELEASE_21);
+        assertThat(supportedSourceVersion).isEqualTo(SourceVersion.RELEASE_25);
     }
 
     @Test

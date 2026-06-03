@@ -70,7 +70,7 @@ public class RelationProcessor extends AbstractProcessor {
     @Override
     public SourceVersion getSupportedSourceVersion() {
         processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "getSupportedSourceVersion");
-        return SourceVersion.RELEASE_21;
+        return SourceVersion.RELEASE_25;
     }
 
     @Override
